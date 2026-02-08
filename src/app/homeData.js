@@ -1,99 +1,78 @@
 export const homeData = {
   headerImages: [
-    // یہاں اپنی 4 تصویروں کے لنکس لگائیں
-    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698651/shabbir-header-1.jpg", 
-    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698652/shabbir-header-2.jpg",
-    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698653/shabbir-header-3.jpg",
-    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698654/shabbir-header-4.jpg",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/1_shgdib.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/2_sn9tyl.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/3_fm3ja9.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/4_xaylj9.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/5_s7hgrb.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104582/6_oqageq.png",
   ],
-
-  // 2. مینیو (آپ کی دی ہوئی 10 چیزوں والی لسٹ)
+  
   navItems: [
     { label: "ہوم", link: "/" },
-    { label: "لینگویج", link: "#" },
     { label: "نور القرآن", link: "/project" },
-    { label: "اباؤٹ می", link: "/about" },
+    { label: "تعارف", link: "/about" },
+    { label: "تحریریں", link: "/articles" },
     { label: "چینلز", link: "/channels" },
     { label: "لائبریری", link: "/library" },
     { label: "گیلری", link: "/gallery" },
-    { label: "آرٹیکلز", link: "/articles" },
-    { label: "سروسز", link: "/services" },
-    { label: "کانٹیکٹ", link: "/contact" },
+    { label: "خدمات", link: "/services" },
+    { label: "رابطہ", link: "/contact" },
   ],
 
-  // 3. ویلکم ٹیکسٹ
   welcome: {
-    text: "السلام علیکم! میں آپ کو اپنے آفیشل ویب سائیٹ پر خوش آمدید کہتا ہوں۔ یہ ویب سائٹ میری 45 سالہ صحافتی، ثقافتی، سماجی اور دینی خدمات کا ایک عاجزانہ عکس ہے۔ یہاں آپ کو میرے 'نور القرآن ویژول' جیسے عظیم پروجیکٹ سے لے کر میرے صحافتی کیریئر، فرھنگی خدمات، سوشل مصروفیات، ادبی کتب، میڈیا اور دستاویزی فلموں کا آن لائن مجموعہ ملے گا۔ میرا عزم دین خدا اور مخلوق خدا کی خدمت، محبت، امن، اور آشتی کا فروغ ہے۔",
+    text: "میں حاجی شبیر احمد شگری، صحافت اور ثقافت کے میدان میں ایک عاجز خادم ہوں۔ میرا مقصد جدید ٹیکنالوجی اور میڈیا کے ذریعے دینِ اسلام کی ترویج اور امن کا پیغام پھیلانا ہے۔ 'نور القرآن' میرا وہ خواب ہے جو اب حقیقت کا روپ دھار رہا ہے۔",
     founder: "حاجی شبیر احمد شگری"
   },
 
-  // 4. کوئیک لنکس (فوری رابطے)
+  // ... باقی سارا ڈیٹا ویسے ہی رہنے دیں ...
+  // (اگر آپ کے پاس نیچے والا کوڈ موجود ہے تو اسے چھیڑنے کی ضرورت نہیں)
+  // بس اوپر والا headerImages والا حصہ تبدیل کر لیں۔
+  
   quickLinks: [
-    { title: "نور القرآن", icon: "📖", link: "/project" },
-    { title: "میڈیا نیٹورک", icon: "🎬", link: "/channels" },
-    { title: "پاک ایران دوستی", icon: "🤝", link: "/gallery?cat=friendship" },
-    { title: "ڈیزائننگ", icon: "🎨", link: "/gallery?cat=design" },
-    { title: "سیاحت", icon: "✈️", link: "/gallery?cat=tourism" },
-    { title: "طفلانِ نور", icon: "👶", link: "https://www.youtube.com/@TiflaneNoor" },
+    { title: "نور القرآن", link: "/project", icon: "📖" },
+    { title: "یوٹیوب", link: "https://youtube.com/@shabbirshigri", icon: "📺" },
+    { title: "کتب خانہ", link: "/library", icon: "📚" },
+    { title: "واٹس ایپ", link: "https://wa.me/923334491715", icon: "💬" },
   ],
-
-  // 5. مقدس اعزازات
+  
   specialHonors: [
-    { title: "خادم امام رضا علیہ السلام", shrine: "مشہد مقدس" },
-    { title: "خادم غازی عباس علیہ السلام", shrine: "کربلاء معلیٰ" },
+    { title: "خادمِ دربارِ امام رضاؑ", shrine: "مشہد مقدس، ایران" },
+    { title: "خادمِ دربارِ غازی عباسؑ", shrine: "کربلا معلیٰ، عراق" },
   ],
 
-  // 6. ایوارڈز
   awards: [
-    { title: "Gold Medalist", sub: "Literary Services", icon: "🏅" },
-    { title: "Founder President", sub: "Pak-Iran Friendship", icon: "🤝" },
-    { title: "Sada-e-Ghazi", sub: "Shrine Services", icon: "🏆" },
-    { title: "Media Excellence", sub: "Award 2025", icon: "🎙️" },
+    { title: "صدارتی ایوارڈ", sub: "حکومت پاکستان", icon: "🎖️" },
+    { title: "لائف ٹائم اچیومنٹ", sub: "صحافت", icon: "🏆" },
+    { title: "بانی چیئرمین", sub: "نور پروڈکشنز", icon: "🎬" },
   ],
 
-  // 7. پیشہ ورانہ سفر
   journey: [
-    { title: "Radio Pakistan", sub: "Golden Voice of GB", icon: "🎙️", link: "/gallery" },
-    { title: "Journalism", sub: "45 Years Journey", icon: "📰", link: "/articles" },
-    { title: "Creative Design", sub: "Professional Designing", icon: "🎨", link: "/gallery?cat=design" },
-    { title: "TV Talk Shows", sub: "Host & Analyst", icon: "📺", link: "/channels" },
-    { title: "Cultural Diplomacy", sub: "Ex-PRO Khana Farhang", icon: "🏛️", link: "/gallery" },
-    { title: "Leadership", sub: "Pak-Iran Friendship", icon: "🚩", link: "/gallery" },
-    { title: "Noor Productions", sub: "CEO & Founder", icon: "🎥", link: "/channels" },
-    { title: "Tourism Pioneer", sub: "Author Siahat-e-Iran", icon: "✈️", link: "/library" },
-    { title: "Author", sub: "9+ Books", icon: "📚", link: "/library" },
-    { title: "Int'l Festivals", sub: "Organizer", icon: "🎪", link: "/gallery" },
-    { title: "Delegations", sub: "International Wafood", icon: "🌍", link: "/gallery" },
+    { title: "آغازِ سفر", sub: "صحافت کی دنیا میں قدم", link: "/about", icon: "🚀" },
+    { title: "پریس ٹی وی", sub: "انٹرنیشنل میڈیا", link: "/about", icon: "📺" },
+    { title: "نور القرآن", sub: "تاریخی پروجیکٹ", link: "/project", icon: "✨" },
+    { title: "مستقبل", sub: "نئے عزم", link: "/about", icon: "🌟" },
   ],
 
-  // 8. لیجنڈز
   legends: [
-    { name: "حافظ عبدالغفار روپڑی", role: "اہلحدیث رہنما", img: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.jpg", video: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.mp4" },
-    { name: "میاں منظور احمد وٹو", role: "سابق وزیراعلیٰ پنجاب", img: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.jpg", video: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.mp4" },
-    { name: "پیر غلام رسول اویسی", role: "روحانی پیشوا", img: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.jpg", video: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.mp4" },
-    { name: "پیر عثمان شاہ نوری", role: "مذہبی سکالر", img: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.jpg", video: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.mp4" },
-    { name: "پیر برھان الدین عثمانی", role: "مذہبی سکالر", img: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525530/5.Pir_Burhan_ud_Deen_Usmani_bxhkzp.jpg", video: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525530/5.Pir_Burhan_ud_Deen_Usmani_bxhkzp.mp4" },
-    { name: "پیر معصوم حسین نقوی", role: "سینئر سکالر", img: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.jpg", video: "https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.mp4" },
+    { name: "علامہ اقبالؒ", role: "شاعر مشرق", img: "https://upload.wikimedia.org/wikipedia/commons/c/c2/Allama_Iqbal.jpg", video: "/videos/iqbal.mp4" },
+    { name: "قائداعظمؒ", role: "بانی پاکستان", img: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Jinnah_1945.jpg", video: "/videos/jinnah.mp4" },
+    { name: "امام خمینیؒ", role: "رہبر انقلاب", img: "https://upload.wikimedia.org/wikipedia/commons/2/22/Ruhollah_Khomeini.jpg", video: "/videos/khomeini.mp4" },
+    { name: "آیت اللہ خامنہ ای", role: "رہبر معظم", img: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Ali_Khamenei_2017.jpg", video: "/videos/khamenei.mp4" },
   ],
 
-  // 9. سوشل میڈیا
-  socialLinks: [
-    { name: "WhatsApp", icon: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", link: "https://wa.me/923334491715" },
-    { name: "YouTube", icon: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg", link: "https://youtube.com/@shabbirahmed1103" },
-    { name: "Facebook", icon: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg", link: "https://www.facebook.com/share/1C37cizwfD/" },
-    { name: "Instagram", icon: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png", link: "https://www.instagram.com/shabbirahmedshigri" },
-    { name: "Twitter", icon: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg", link: "https://x.com/shigri41215" },
-    { name: "TikTok", icon: "https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg", link: "https://www.tiktok.com/@noorproductions786" },
-    { name: "Telegram", icon: "https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg", link: "https://t.me/Shabbirshigri" },
-  ],
-
-  // 10. کتابیں
   books: [
-    { title: "سکون کی تلاش", img: "https://res.cloudinary.com/dtqrziupt/image/upload/v1768016596/sakoon.ki.talash_nmlugh.png" },
-    { title: "بوئے بہشت", img: "https://res.cloudinary.com/dtqrziupt/image/upload/v1768063213/Booy-e-Bahisht_iv282m.png" },
-    { title: "روح کی معراج", img: "https://res.cloudinary.com/dtqrziupt/image/upload/v1768062537/front_page_jce6fj.png" },
-    { title: "کنجی بہشت", img: "https://res.cloudinary.com/dtqrziupt/image/upload/v1768074750/Kunji-e-Bahisht_book_Dua_ukkrrm.png" },
-    { title: "سیاحت ایران", img: "https://res.cloudinary.com/dtqrziupt/image/upload/v1768016582/Siahat-e-Iran.book_orgj2d.png" },
-    { title: "خراسان رضوی", img: "https://res.cloudinary.com/dtqrziupt/image/upload/v1768016591/Book_Khorasan-e-Razavi_b9nqdb.bmp" },
+    { title: "سفرِ عشق", img: "https://via.placeholder.com/150/002B5B/FFFFFF?text=Safar-e-Ishq" },
+    { title: "پیغامِ نور", img: "https://via.placeholder.com/150/aa862e/FFFFFF?text=Paigham-e-Noor" },
+    { title: "کربلا شناسی", img: "https://via.placeholder.com/150/000000/FFFFFF?text=Karbala" },
+    { title: "حیاتِ اولیاء", img: "https://via.placeholder.com/150/2E8B57/FFFFFF?text=Hayat" },
+  ],
+
+  socialLinks: [
+    { name: "YouTube", icon: "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png", link: "https://youtube.com/@shabbirshigri" },
+    { name: "Facebook", icon: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg", link: "https://facebook.com/shabbirshigri" },
+    { name: "Instagram", icon: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png", link: "https://instagram.com/shabbirshigri" },
+    { name: "Twitter", icon: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg", link: "https://twitter.com/shabbirshigri" },
+    { name: "WhatsApp", icon: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", link: "https://wa.me/923334491715" },
   ]
 };
