@@ -1,25 +1,87 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { homeData } from './homeData';
 
 export default function HomePage() {
   const [currentImg, setCurrentImg] = useState(0);
   const [videoModal, setVideoModal] = useState<string | null>(null);
   const [showScroll, setShowScroll] = useState(false);
   
-  // کمنٹس سٹیٹ
-  const [comments, setComments] = useState([
-    { name: "علی رضا", msg: "ماشاءاللہ! استاد جی بہت ہی شاندار کاوش ہے۔", likes: 12 },
-    { name: "محمد اویس", msg: "ویب سائٹ کا ڈیزائن اور مواد دونوں بہترین ہیں۔ اللہ برکت دے۔", likes: 8 },
-  ]);
-  const [newComment, setNewComment] = useState("");
-  const [newName, setNewName] = useState("");
+  // --- سارا ڈیٹا یہیں ہے ---
+  const headerImages = [
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/1_shgdib.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/2_sn9tyl.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/3_fm3ja9.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/4_xaylj9.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/5_s7hgrb.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104582/6_oqageq.png",
+  ];
 
-  // --- ہیڈر سلائیڈ شو ---
+  const awards = [
+    { title: "Gold Medalist", sub: "Cultural & Literary Services", icon: "🥇" },
+    { title: "Founder President", sub: "Pak-Iran Friendship", icon: "🤝" },
+    { title: "Sada-e-Ghazi Award", sub: "Services at Shrine", icon: "🕌" },
+    { title: "Media Excellence Award", sub: "2025 (Lahore)", icon: "🏆" },
+  ];
+
+  const journey = [
+    { title: "Radio Pakistan", sub: "Start of Career at Radio Pakistan Skardu. The 'Golden Voice' of GB.", link: "/gallery", icon: "🎙️" },
+    { title: "Journalism (45 Years)", sub: "Deputy Editor: Daily Havi, Akath & Prachar. 300+ Articles.", link: "/articles", icon: "📰" },
+    { title: "TV Talk Shows", sub: "Host & Guest on numerous National & International TV Talk Shows.", link: "/channels", icon: "📺" },
+    { title: "Cultural Diplomacy", sub: "Ex-PRO & In-charge of Other Departments at Khana Farhang Iran.", link: "/gallery", icon: "🤝" },
+    { title: "Leadership", sub: "Founding President: Pak-Iran Friendship. Rep: Astan Quds Razavi.", link: "/gallery", icon: "🚩" },
+    { title: "Noor Productions", sub: "Founder of Noor-ul-Quran Visual Project. 2000+ Documentaries.", link: "/project", icon: "🎥" },
+    { title: "Tourism Pioneer", sub: "Launched First Cultural Tourism to Iran. Author of 'Siahat-e-Iran'.", link: "/books", icon: "🚌" },
+    { title: "Books & Author", sub: "Author of 9+ books including 'Booy-e-Bahisht' and 'Khorasan-e-Razavi'.", link: "/library", icon: "📚" },
+    { title: "Photo Gallery", sub: "A visual archive of 45 years of meetings, awards, and visits.", link: "/gallery", icon: "📸" },
+    { title: "Int'l Film Festivals", sub: "Organizer of multiple International Film Festivals & Cultural Programs.", link: "/gallery", icon: "🎬" },
+    { title: "Int'l Delegations", sub: "Hosted and led numerous International Delegations (Wafood).", link: "/gallery", icon: "🌍" },
+  ];
+
+  const legends = [
+    { name: "علامہ اقبالؒ", role: "شاعر مشرق", img: "https://upload.wikimedia.org/wikipedia/commons/c/c2/Allama_Iqbal.jpg", video: "/videos/iqbal.mp4" },
+    { name: "قائداعظمؒ", role: "بانی پاکستان", img: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Jinnah_1945.jpg", video: "/videos/jinnah.mp4" },
+    { name: "امام خمینیؒ", role: "رہبر انقلاب", img: "https://upload.wikimedia.org/wikipedia/commons/2/22/Ruhollah_Khomeini.jpg", video: "/videos/khomeini.mp4" },
+    { name: "آیت اللہ خامنہ ای", role: "رہبر معظم", img: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Ali_Khamenei_2017.jpg", video: "/videos/khamenei.mp4" },
+  ];
+
+  const books = [
+    { title: "سفرِ عشق", img: "https://via.placeholder.com/150/002B5B/FFFFFF?text=Safar-e-Ishq" },
+    { title: "پیغامِ نور", img: "https://via.placeholder.com/150/aa862e/FFFFFF?text=Paigham-e-Noor" },
+    { title: "کربلا شناسی", img: "https://via.placeholder.com/150/000000/FFFFFF?text=Karbala" },
+    { title: "حیاتِ اولیاء", img: "https://via.placeholder.com/150/2E8B57/FFFFFF?text=Hayat" },
+  ];
+
+  const quickLinks = [
+    { title: "نور القرآن", link: "/project", icon: "📖" },
+    { title: "یوٹیوب", link: "https://youtube.com/@shabbirshigri", icon: "📺" },
+    { title: "کتب خانہ", link: "/library", icon: "📚" },
+    { title: "واٹس ایپ", link: "https://wa.me/923334491715", icon: "💬" },
+  ];
+
+  const socialLinks = [
+    { name: "YouTube", icon: "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png", link: "https://youtube.com/@shabbirshigri" },
+    { name: "Facebook", icon: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg", link: "https://facebook.com/shabbirshigri" },
+    { name: "Instagram", icon: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png", link: "https://instagram.com/shabbirshigri" },
+    { name: "Twitter", icon: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg", link: "https://twitter.com/shabbirshigri" },
+    { name: "WhatsApp", icon: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", link: "https://wa.me/923334491715" },
+  ];
+
+  const menuItems = [
+    { label: "ہوم", link: "/" },
+    { label: "نور القرآن", link: "/project" },
+    { label: "تعارف", link: "/about" }, 
+    { label: "تحریریں", link: "/articles" }, 
+    { label: "چینلز", link: "/channels" },
+    { label: "لائبریری", link: "/library" },
+    { label: "گیلری", link: "/gallery" },
+    { label: "خدمات", link: "/services" },
+    { label: "رابطہ", link: "/contact" },
+  ];
+
   useEffect(() => {
     const timer = setInterval(() => {
-      if (homeData.headerImages && homeData.headerImages.length > 0) {
-        setCurrentImg((prev) => (prev + 1) % homeData.headerImages.length);
+      if (headerImages.length > 0) {
+        setCurrentImg((prev) => (prev + 1) % headerImages.length);
       }
     }, 4000); 
 
@@ -39,24 +101,18 @@ export default function HomePage() {
   };
   const handleLike = (index: number) => { const nc = [...comments]; nc[index].likes += 1; setComments(nc); };
   const handleDelete = (index: number) => { const nc = [...comments]; nc[index].splice(index, 1); setComments(nc); };
-
-  // مینیو (زبان بٹن ہٹا دیا، تحریریں شامل)
-  const menuItems = [
-    { label: "ہوم", link: "/" },
-    { label: "نور القرآن", link: "/project" },
-    { label: "تعارف", link: "/about" }, 
-    { label: "تحریریں", link: "/articles" }, // Articles Added
-    { label: "چینلز", link: "/channels" },
-    { label: "لائبریری", link: "/library" },
-    { label: "گیلری", link: "/gallery" },
-    { label: "خدمات", link: "/services" },
-    { label: "رابطہ", link: "/contact" },
-  ];
+  
+  const [comments, setComments] = useState([
+    { name: "علی رضا", msg: "ماشاءاللہ! استاد جی بہت ہی شاندار کاوش ہے۔", likes: 12 },
+    { name: "محمد اویس", msg: "ویب سائٹ کا ڈیزائن اور مواد دونوں بہترین ہیں۔ اللہ برکت دے۔", likes: 8 },
+  ]);
+  const [newComment, setNewComment] = useState("");
+  const [newName, setNewName] = useState("");
 
   return (
     <div className="main-container">
       
-      {/* 1. زبان کا فلوٹنگ بٹن (سائیڈ پر) */}
+      {/* 1. زبان کا فلوٹنگ بٹن */}
       <button className="lang-float-btn">
          🌍 English
       </button>
@@ -66,9 +122,9 @@ export default function HomePage() {
         <span>ماشآءَ اللَّهُ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</span>
       </div>
 
-      {/* 3. ہیڈر */}
+      {/* 3. ہیڈر (Fixed for Mobile Fit) */}
       <header className="hero-header">
-        {homeData.headerImages && homeData.headerImages.map((img, index) => (
+        {headerImages.map((img, index) => (
           <img 
             key={index} src={img} alt="Header" 
             className={`header-bg ${index === currentImg ? 'active' : ''}`}
@@ -87,7 +143,7 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* 5. نام (بہت موٹا اور نمایاں) */}
+      {/* 5. نام (Fixed Font & Sharpness) */}
       <div className="title-section">
         <div className="title-box">
            <h1 className="main-name font-english">Haji Shabbir Ahmed Shigri</h1>
@@ -106,9 +162,9 @@ export default function HomePage() {
       <section className="section-container">
         <div className="welcome-card royal-border">
           <div className="bismillah-small">﷽</div>
-          <p className="nori-font welcome-text">{homeData.welcome.text}</p>
+          <p className="nori-font welcome-text">میں حاجی شبیر احمد شگری، صحافت اور ثقافت کے میدان میں ایک عاجز خادم ہوں۔ میرا مقصد جدید ٹیکنالوجی اور میڈیا کے ذریعے دینِ اسلام کی ترویج اور امن کا پیغام پھیلانا ہے۔ 'نور القرآن' میرا وہ خواب ہے جو اب حقیقت کا روپ دھار رہا ہے۔</p>
           <div className="founder-signature nori-font">
-             <span>{homeData.welcome.founder}</span>
+             <span>حاجی شبیر احمد شگری</span>
           </div>
         </div>
       </section>
@@ -117,7 +173,7 @@ export default function HomePage() {
       <section className="section-container">
         <h2 className="nori-font section-heading">فوری روابط (Quick Links)</h2>
         <div className="nav-grid">
-          {homeData.quickLinks && homeData.quickLinks.map((item, index) => (
+          {quickLinks.map((item, index) => (
             <a key={index} href={item.link} className="quick-nav-card">
               <div className="quick-icon">{item.icon}</div>
               <h3 className="nori-font">{item.title}</h3>
@@ -141,20 +197,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 10. اعزازات */}
+      {/* 10. اعزازات (Updated Content) */}
       <section className="section-container">
         <h2 className="nori-font section-heading">اعزازاتِ مقدسہ</h2>
         <div className="honors-grid-controlled">
-          {homeData.specialHonors && homeData.specialHonors.map((honor, index) => (
-            <div key={index} className="honor-card-gold">
-               <h3 className="nori-font honor-title">{honor.title}</h3>
-               <p className="nori-font honor-sub">{honor.shrine}</p>
+            <div className="honor-card-gold">
+               <h3 className="nori-font honor-title">خادمِ دربارِ امام رضاؑ</h3>
+               <p className="nori-font honor-sub">مشہد مقدس، ایران</p>
             </div>
-          ))}
+            <div className="honor-card-gold">
+               <h3 className="nori-font honor-title">خادمِ دربارِ غازی عباسؑ</h3>
+               <p className="nori-font honor-sub">کربلا معلیٰ، عراق</p>
+            </div>
         </div>
         
         <div className="awards-grid-equal">
-           {homeData.awards && homeData.awards.map((aw, i) => (
+           {awards.map((aw, i) => (
              <div key={i} className="award-item-gold">
                <span className="award-icon">{aw.icon}</span>
                <div className="award-text-area">
@@ -166,11 +224,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 11. پیشہ ورانہ سفر */}
+      {/* 11. پیشہ ورانہ سفر (Updated Content & Layout) */}
       <section className="section-container">
         <h2 className="nori-font section-heading">پیشہ ورانہ سفر (Journey)</h2>
         <div className="journey-grid-compact">
-          {homeData.journey && homeData.journey.map((j, i) => (
+          {journey.map((j, i) => (
              <a key={i} href={j.link} className="journey-box">
                 <div className="j-icon">{j.icon}</div>
                 <h4 className="j-title">{j.title}</h4>
@@ -180,12 +238,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 12. لیجنڈز */}
+      {/* 12. لیجنڈز (Fixed Slider) */}
       <section className="section-container">
         <h2 className="nori-font section-heading">اہم شخصیات (Legends)</h2>
         <div className="slider-track-container">
           <div className="slider-track">
-            {homeData.legends && homeData.legends.map((legend, i) => (
+            {legends.map((legend, i) => (
               <div key={i} className="legend-card" onClick={() => setVideoModal(legend.video)}>
                 <div className="legend-img">
                   <img src={legend.img} alt={legend.name} />
@@ -197,7 +255,8 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
-             {homeData.legends && homeData.legends.map((legend, i) => (
+             {/* Duplicate for Loop */}
+             {legends.map((legend, i) => (
               <div key={i+'d'} className="legend-card" onClick={() => setVideoModal(legend.video)}>
                 <div className="legend-img"><img src={legend.img}/><div className="play-overlay"><span className="play-icon-small">▶</span></div></div>
                 <div className="legend-info"><h3 className="nori-font legend-name">{legend.name}</h3><p className="nori-font designation-text">{legend.role}</p></div>
@@ -207,17 +266,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 13. کتابیں */}
+      {/* 13. کتابیں (Fixed Slider) */}
       <section className="section-container">
         <h2 className="nori-font section-heading">تصنیفات (Books)</h2>
         <div className="slider-track-container">
           <div className="slider-track reverse">
-            {homeData.books && homeData.books.map((book, i) => (
+            {books.map((book, i) => (
               <div key={i} className="book-card-style">
                 <img src={book.img} alt={book.title} />
               </div>
             ))}
-            {homeData.books && homeData.books.map((book, i) => (
+            {books.map((book, i) => (
               <div key={i+'d'} className="book-card-style">
                 <img src={book.img} alt={book.title} />
               </div>
@@ -270,7 +329,7 @@ export default function HomePage() {
          </div>
       </section>
 
-      {/* 17. فوٹر */}
+      {/* 17. فوٹر (فکسڈ) */}
       <footer className="main-footer">
          <div className="footer-content">
             <div className="f-col">
@@ -290,7 +349,7 @@ export default function HomePage() {
             <div className="f-col">
                <h3 className="nori-font">سوشل میڈیا</h3>
                <div className="social-icons-grid">
-                 {homeData.socialLinks && homeData.socialLinks.map((social, i) => (
+                 {socialLinks.map((social, i) => (
                    <a key={i} href={social.link} target="_blank" className="social-btn-original" title={social.name}>
                      <img src={social.icon} alt={social.name} />
                    </a>
@@ -326,6 +385,7 @@ export default function HomePage() {
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Gulzar&family=Amiri:wght@700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&display=swap');
         
         :root { 
             --royal: #002B5B; 
@@ -333,20 +393,28 @@ export default function HomePage() {
             --light-gold: #fcf6ba; 
         }
         
-        html, body { margin: 0; padding: 0; background: #fdfdfd; font-family: 'Jameel Noori Nastaleeq', 'Gulzar', serif; direction: rtl; overflow-x: hidden; width: 100%; }
-        
+        html, body { margin: 0; padding: 0; background: #fdfdfd; font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', serif; direction: rtl; overflow-x: hidden; width: 100%; }
         .font-english { font-family: 'Cinzel', serif; letter-spacing: 1px; }
 
         .spiritual-bar { background: var(--royal); color: #ffd700; text-align: center; padding: 4px; font-family: 'Amiri', serif; font-size: 0.9rem; border-bottom: 2px solid var(--gold); }
         
-        .hero-header { height: 300px; width: 100%; position: relative; overflow: hidden; border-bottom: 4px solid var(--gold); }
-        .header-bg { position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; z-index: 1; }
+        /* HEADER FIX: Fit images perfectly on mobile without cutting */
+        .hero-header { width: 100%; position: relative; overflow: hidden; border-bottom: 4px solid var(--gold); }
+        /* PC Height */
+        @media (min-width: 769px) { .hero-header { height: 400px; } }
+        /* Mobile Height */
+        @media (max-width: 768px) { .hero-header { height: 200px; } }
+
+        .header-bg { 
+            position: absolute; top:0; left:0; width: 100%; height: 100%; 
+            object-fit: fill; /* Images will stretch to fit exactly */
+            opacity: 0; transition: opacity 1s ease-in-out; z-index: 1; 
+        }
         .header-bg.active { opacity: 1; z-index: 2; }
 
         .sticky-nav { position: sticky; top: 0; background: var(--royal); z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-bottom: 3px solid var(--gold); padding: 0; }
         .nav-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; padding: 5px; }
         
-        /* مینیو بٹن: اردو فونٹ کے ساتھ */
         .nav-link-royal { 
             color: #fff; padding: 8px 15px; text-decoration: none; font-weight: bold; 
             font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; 
@@ -355,36 +423,25 @@ export default function HomePage() {
         }
         .nav-link-royal:hover { background: var(--gold); color: white; border-color: white; }
 
-        /* زبان کا فلوٹنگ بٹن */
         .lang-float-btn {
-            position: fixed;
-            top: 20px; left: 20px;
-            background: rgba(255,255,255,0.9);
-            border: 2px solid var(--gold);
-            padding: 8px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 9999;
-            font-weight: bold;
-            color: var(--royal);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: 0.3s;
-            font-family: sans-serif;
+            position: fixed; top: 20px; left: 20px; background: rgba(255,255,255,0.9);
+            border: 2px solid var(--gold); padding: 8px 15px; border-radius: 30px;
+            cursor: pointer; z-index: 9999; font-weight: bold; color: var(--royal);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; font-family: sans-serif;
         }
         .lang-float-btn:hover { background: var(--royal); color: white; border-color: white; }
 
         .title-section { text-align: center; padding: 10px 15px 0px 15px; background: #fff; margin-bottom: 0; }
         .title-box { display: inline-block; padding: 5px 20px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
         
-        /* نام: ایکسٹرا بولڈ اور ڈبل شیڈو */
+        /* NAME FIX: Clean and Sharp on Mobile */
         .main-name { 
-            font-size: clamp(2.5rem, 6vw, 4rem); /* Responsive */
+            font-size: 2.8rem; 
             color: #aa862e !important; margin: 0; 
             text-transform: uppercase; letter-spacing: 1px; 
             font-weight: 900; 
-            /* ڈبل ٹیکسٹ شیڈو تاکہ بہت موٹا لگے */
-            text-shadow: 2px 2px 0px #8a6d20, -1px -1px 0 #8a6d20;
-            -webkit-text-stroke: 1px #8a6d20; /* Text Border */
+            white-space: nowrap; 
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1); /* Minimal shadow for sharpness */
         }
         .designation { color: var(--gold); margin: 5px 0 0; font-family: sans-serif; font-weight: 400; font-size: 0.8rem; letter-spacing: 1px; opacity: 0.9; }
 
@@ -394,37 +451,57 @@ export default function HomePage() {
         
         .section-container { max-width: 1000px; margin: 20px auto; padding: 0 15px; width: 100%; box-sizing: border-box; }
         
+        /* SLIDER FIXES: Ensure display works */
+        .slider-track-container { width: 100%; overflow: hidden; padding: 10px 0; position: relative; }
+        .slider-track { display: flex; gap: 20px; width: max-content; animation: scroll 30s linear infinite; }
+        .slider-track:hover { animation-play-state: paused; }
+        
+        .legend-card { width: 180px; flex-shrink: 0; background: white; border-radius: 10px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .legend-img { position: relative; height: 120px; }
+        .legend-img img { width: 100%; height: 100%; object-fit: cover; }
+        .play-icon-small { font-size: 1.5rem; color: white; }
+        .legend-info { padding: 5px; text-align: center; background: var(--gold); border-top: 1px solid white; color: white; }
+        .legend-name { margin: 0; font-size: 0.9rem; color: white; font-weight: bold; }
+        .designation-text { font-size: 0.7rem; margin: 2px 0; color: #eee; }
+        
+        .slider-track.reverse { animation: scrollReverse 30s linear infinite; }
+        .book-card-style { width: 120px; flex-shrink: 0; text-align: center; border: 1px solid var(--gold); border-radius: 6px; padding: 4px; background: white; }
+        .book-card-style img { width: 100%; height: auto; display: block; }
+        
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes scrollReverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+        /* Other Grids */
         .honors-grid-controlled { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 15px; max-width: 600px; margin: 0 auto; }
         .honor-card-gold { background: var(--gold); color: white; border-radius: 10px; padding: 10px; text-align: center; border: 2px solid #8a6d20; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; min-height: 80px; }
         .honor-title { color: white; margin: 0; font-size: 1rem; text-shadow: 1px 1px 0 rgba(0,0,0,0.3); }
         .honor-sub { color: #eee; margin: 3px 0 0; font-size: 0.8rem; }
-
-        .awards-grid-equal { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
+        
+        .awards-grid-equal { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
         .award-item-gold { background: var(--gold); color: white; border: 2px solid #8a6d20; padding: 15px; display: flex; align-items: center; gap: 10px; border-radius: 8px; transition: 0.3s; min-height: 80px; }
         .award-item-gold:hover { transform: translateY(-3px); background: var(--royal); border-color: white; }
         .award-text-area { text-align: right; }
-        .award-title { color: white; font-size: 1rem; font-weight: bold; display: block; }
-        .award-sub { font-size: 0.8rem; color: #eee; }
-
-        .journey-grid-compact { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; justify-content: center; }
+        .award-title { color: white; font-size: 0.9rem; font-weight: bold; display: block; }
+        .award-sub { font-size: 0.7rem; color: #eee; font-family: sans-serif; }
+        
+        .journey-grid-compact { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; justify-content: center; }
         .journey-box { background: var(--gold); color: white; padding: 15px; border-radius: 10px; text-align: center; text-decoration: none; transition: 0.3s; border: 2px solid #8a6d20; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 120px; }
         .journey-box:hover { background: var(--royal); color: white; border-color: white; transform: translateY(-5px); }
         .j-icon { font-size: 1.3rem; margin-bottom: 5px; color: white; }
-        .j-title { font-size: 0.9rem; }
+        .j-title { font-size: 0.8rem; font-family: 'Cinzel', serif; font-weight: bold; }
+        .j-sub { font-size: 0.6rem; margin-top: 5px; line-height: 1.2; opacity: 0.9; font-family: sans-serif; }
 
         .welcome-card { background: white; padding: 25px; text-align: center; position: relative; background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px); background-size: 20px 20px; }
         .royal-border { border: 4px double var(--gold); outline: 1px solid var(--royal); outline-offset: -6px; border-radius: 8px; }
         .bismillah-small { font-family: 'Amiri'; font-size: 1.2rem; color: var(--royal); margin-bottom: 5px; opacity: 0.8; }
         .welcome-text { font-size: 1.1rem; line-height: 2; text-align: justify; color: #333; margin-bottom: 15px; }
         .founder-signature span { font-size: 1.4rem; color: var(--royal); border-bottom: 2px solid var(--gold); }
-
         .nav-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
         .quick-nav-card { background: linear-gradient(to bottom, #fff, #fcf6ba); border-radius: 8px; padding: 15px; text-align: center; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; border: 1px solid var(--gold); display: block; }
         .quick-nav-card h3 { margin: 0; font-size: 1rem; color: var(--royal); }
         .quick-nav-card:hover { transform: translateY(-3px); background: var(--royal); border-color: white; }
         .quick-nav-card:hover h3, .quick-nav-card:hover .quick-icon { color: white; }
         .quick-icon { font-size: 1.5rem; margin-bottom: 5px; color: var(--gold); }
-
         .project-highlight-white { display: flex; gap: 20px; border-radius: 15px; padding: 30px; align-items: center; border: 4px solid var(--gold); overflow: hidden; background: white; flex-wrap: wrap; justify-content: center; text-align: center; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2); position: relative; }
         .project-highlight-white::before { content: ""; position: absolute; inset: 0; background-image: url("https://www.transparenttextures.com/patterns/arabesque.png"); opacity: 0.1; z-index: 0; }
         .project-info { flex: 1; min-width: 250px; z-index: 1; }
@@ -433,25 +510,8 @@ export default function HomePage() {
         .project-title { color: var(--royal); font-size: 1.8rem; margin: 10px 0; text-shadow: 1px 1px 0 #ddd; font-weight: bold; }
         .project-desc-bold { font-size: 1.2rem; color: #000; margin-bottom: 15px; font-weight: 800; text-shadow: 1px 1px 0px #fff; }
         .gold-btn-shiny { background: linear-gradient(45deg, #ffd700, #b8860b); color: black; padding: 10px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-
         .section-heading { text-align: center; color: var(--royal); font-size: 1.6rem; margin-bottom: 10px; }
-        .slider-track-container { width: 100%; overflow: hidden; padding: 5px 0; }
-        .slider-track { display: flex; gap: 20px; width: max-content; animation: scroll 60s linear infinite; }
-        .slider-track:hover { animation-play-state: paused; }
-        .legend-card { width: 200px; flex-shrink: 0; background: white; border-radius: 10px; overflow: hidden; border: 1px solid #ddd; }
-        .legend-img { position: relative; height: 130px; }
-        .legend-img img { width: 100%; height: 100%; object-fit: cover; }
-        .play-icon-small { font-size: 1.5rem; color: white; }
-        .legend-info { padding: 5px; text-align: center; background: var(--gold); border-top: 1px solid white; color: white; }
-        .legend-name { margin: 0; font-size: 0.9rem; color: white; font-weight: bold; }
-        .designation-text { font-size: 0.7rem; margin: 2px 0; color: #eee; }
-
-        .slider-track.reverse { animation: scrollReverse 60s linear infinite; }
-        .book-card-style { width: 130px; flex-shrink: 0; text-align: center; border: 1px solid var(--gold); border-radius: 6px; padding: 4px; background: white; }
-        .book-card-style img { width: 100%; height: auto; display: block; }
-
         .know-more-btn { background: var(--gold); color: black; padding: 10px 30px; border-radius: 50px; text-decoration: none; font-size: 1rem; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
         .guestbook-royal { border: 2px solid var(--gold); border-radius: 10px; overflow: hidden; }
         .gb-header { background: var(--royal); padding: 10px; text-align: center; }
         .gb-body { padding: 15px; background: #fffcf5; }
@@ -461,41 +521,61 @@ export default function HomePage() {
         .royal-form { display: flex; gap: 5px; flex-direction: column; }
         .royal-form input, .royal-form textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
         .royal-form button { background: var(--gold); border: none; padding: 8px; cursor: pointer; font-weight: bold; border-radius: 4px; }
-
-        .main-footer { background: var(--royal); color: white; padding: 30px 20px 10px; margin-top: 40px; border-top: 5px solid var(--gold); overflow: hidden; }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
-        .f-col h3 { font-size: 1.1rem; border-bottom: 1px solid var(--gold); margin-bottom: 10px; display: inline-block; color: var(--gold); }
+        
+        /* FOOTER FIXES */
+        .main-footer { background: var(--royal); color: white; padding: 20px 10px; margin-top: 30px; border-top: 5px solid var(--gold); overflow: hidden; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .f-col h3 { font-size: 1rem; border-bottom: 1px solid var(--gold); margin-bottom: 8px; display: inline-block; color: var(--gold); }
         .footer-links { padding: 0; list-style: none; margin: 0; }
-        .footer-links li { margin-bottom: 5px; }
-        .footer-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; }
+        .footer-links li { margin-bottom: 4px; }
+        .footer-links a { color: #ccc; text-decoration: none; font-size: 0.85rem; }
+        
+        .social-icons-grid { display: flex; gap: 8px; flex-wrap: nowrap; margin-top: 5px; justify-content: flex-start; overflow-x: auto; }
+        .social-btn-original { width: 32px; height: 32px; min-width: 32px; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid var(--gold); border-radius: 50%; transition: 0.3s; padding: 5px; }
+        .social-btn-original img { width: 100%; height: 100%; object-fit: contain; }
+        
+        .newsletter-box { display: flex; margin-top: 5px; }
+        .newsletter-box input { padding: 5px; border-radius: 0 4px 4px 0; border: none; width: 65%; font-size: 0.8rem; }
+        .newsletter-box button { padding: 5px 10px; border-radius: 4px 0 0 4px; border: none; background: var(--gold); font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+
+        .footer-bottom { text-align: center; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; font-size: 0.75rem; }
+        .float-whatsapp { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; z-index: 9999; }
+        .float-scroll { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: var(--gold); color: white; border: none; border-radius: 50%; cursor: pointer; z-index: 9999; font-size: 1.2rem; }
         
         @media (max-width: 768px) {
-            .hero-header { height: 150px; }
+            .hero-header { height: 200px; } /* Correct height for mobile */
             .spiritual-bar { font-size: 0.7rem; padding: 2px; }
-            /* موبائل پر نام کا سائز ایڈجسٹ */
-            .main-name { font-size: 4.5vw; white-space: nowrap; margin-top: 2px; } 
+            
+            /* NAME MOBILE FIX */
+            .main-name { 
+                font-size: 1.8rem; 
+                white-space: normal; 
+                margin-top: 5px; 
+                text-shadow: none; 
+                font-weight: 900;
+            } 
             
             .section-container { margin: 10px auto; }
             .section-heading { margin-bottom: 5px; } 
             
-            /* موبائل مینیو */
-            .nav-link-royal { 
-                font-size: 0.9rem; 
-                padding: 6px 10px; margin: 2px; 
-            }
+            .nav-link-royal { font-size: 0.85rem; padding: 5px 8px; margin: 2px; }
             .honors-grid-controlled { grid-template-columns: repeat(2, 1fr); gap: 5px; } 
             .honor-card-gold { padding: 8px; min-height: 70px; } 
             .honor-title { font-size: 0.9rem; }
             .honor-sub { font-size: 0.65rem; }
-            .awards-grid-equal { grid-template-columns: repeat(1, 1fr); } 
-            .social-icons-grid { justify-content: center; }
             
-            /* موبائل پر زبان کا بٹن تھوڑا چھوٹا */
+            /* Awards Fix Mobile */
+            .awards-grid-equal { grid-template-columns: repeat(1, 1fr); } 
+            
+            /* Footer Fixes */
+            .social-icons-grid { justify-content: center; }
+            .main-footer { padding: 15px 10px; }
+            .footer-content { gap: 15px; text-align: center; }
+            .f-col h3 { font-size: 0.95rem; }
+            
             .lang-float-btn { top: 10px; left: 10px; padding: 5px 10px; font-size: 0.8rem; }
         }
         @keyframes scrollLeft { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(50%); } }
-        @keyframes scrollReverse { from { transform: translateX(50%); } to { transform: translateX(0); } }
       `}</style>
     </div>
   );
