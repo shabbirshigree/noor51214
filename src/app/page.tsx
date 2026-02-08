@@ -18,7 +18,6 @@ export default function HomePage() {
   // --- ہیڈر سلائیڈ شو ---
   useEffect(() => {
     const timer = setInterval(() => {
-      // تصویر بدلنے کا لاجک
       if (homeData.headerImages && homeData.headerImages.length > 0) {
         setCurrentImg((prev) => (prev + 1) % homeData.headerImages.length);
       }
@@ -41,15 +40,28 @@ export default function HomePage() {
   const handleLike = (index: number) => { const nc = [...comments]; nc[index].likes += 1; setComments(nc); };
   const handleDelete = (index: number) => { const nc = [...comments]; nc[index].splice(index, 1); setComments(nc); };
 
+  // مینیو (خالص اردو)
+  const menuItems = [
+    { label: "زبانیں 🌍", link: "/languages" }, // الگ سے نمایاں
+    { label: "ہوم", link: "/" },
+    { label: "نور القرآن", link: "/project" },
+    { label: "تعارف", link: "/about" }, // About Me
+    { label: "چینلز", link: "/channels" },
+    { label: "لائبریری", link: "/library" },
+    { label: "گیلری", link: "/gallery" },
+    { label: "خدمات", link: "/services" },
+    { label: "رابطہ", link: "/contact" },
+  ];
+
   return (
     <div className="main-container">
       
-      {/* 1. روحانی حفاظتی پٹی (موبائل پر سائز چھوٹا کر دیا گیا) */}
+      {/* 1. روحانی حفاظتی پٹی */}
       <div className="spiritual-bar">
         <span>ماشآءَ اللَّهُ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</span>
       </div>
 
-      {/* 2. ہیڈر (پی سی پر بھی چلے گا) */}
+      {/* 2. ہیڈر */}
       <header className="hero-header">
         {homeData.headerImages && homeData.headerImages.map((img, index) => (
           <img 
@@ -59,34 +71,35 @@ export default function HomePage() {
         ))}
       </header>
 
-      {/* 3. مینیو بار (تمام 10 بٹن واپس آ گئے) */}
+      {/* 3. مینیو بار (اردو) */}
       <nav className="sticky-nav">
         <div className="nav-container">
-           {/* یہاں ہم نے واپس homeData لگا دیا ہے تاکہ سارے بٹن شو ہوں */}
-           {homeData.navItems && homeData.navItems.map((item, index) => (
-             <a key={index} href={item.link} className="nav-link-royal">
+           {menuItems.map((item, index) => (
+             <a key={index} href={item.link} className={`nav-link-royal nori-font ${index === 0 ? 'special-lang-btn' : ''}`}>
                {item.label}
              </a>
            ))}
         </div>
       </nav>
 
-      {/* 4. نام (گولڈن، بولڈ، سنٹر اور گیپ ختم) */}
+      {/* 4. نام (بہت بڑا اور بولڈ) */}
       <div className="title-section">
         <div className="title-box">
+           {/* فونٹ انگلش لیکن بہت بولڈ */}
            <h1 className="main-name font-english">Haji Shabbir Ahmed Shigri</h1>
+           {/* عہدہ چھوٹا */}
            <p className="designation">Senior Journalist | Cultural Expert | Founder Noor-ul-Quran</p>
         </div>
       </div>
 
-      {/* 5. نیوز ٹکر (گیپ ختم) */}
+      {/* 5. نیوز ٹکر */}
       <div className="news-ticker">
         <div className="ticker-content">
           <p>★ "ONE MAN ARMY" of Media Industry ★ FIRST TIME IN THE WORLD: Visual Quran Project ★ Representative of Astan Quds Razavi ★ Founder of Noor Productions ★</p>
         </div>
       </div>
 
-      {/* 6. ویلکم سیکشن */}
+      {/* 6. ویلکم سیکشن (بسم اللہ چھوٹی) */}
       <section className="section-container">
         <div className="welcome-card royal-border">
           <div className="bismillah-small">﷽</div>
@@ -125,11 +138,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9. اعزازات (PC پر چھوٹے اور ایک لائن میں) */}
+      {/* 9. اعزازات */}
       <section className="section-container">
         <h2 className="nori-font section-heading">اعزازاتِ مقدسہ</h2>
-        
-        {/* بڑے اعزازات (Fixed Size & Side by Side on PC) */}
         <div className="honors-grid-controlled">
           {homeData.specialHonors && homeData.specialHonors.map((honor, index) => (
             <div key={index} className="honor-card-gold">
@@ -139,7 +150,6 @@ export default function HomePage() {
           ))}
         </div>
         
-        {/* چھوٹے ایوارڈز */}
         <div className="awards-grid-equal">
            {homeData.awards && homeData.awards.map((aw, i) => (
              <div key={i} className="award-item-gold">
@@ -257,11 +267,10 @@ export default function HomePage() {
          </div>
       </section>
 
-      {/* 17. فوٹر (نام تبدیل کر دیا گیا) */}
+      {/* 17. فوٹر */}
       <footer className="main-footer">
          <div className="footer-content">
             <div className="f-col">
-               {/* نور پروڈکشن ہٹا دیا گیا */}
                <h3 className="nori-font">حاجی شبیر احمد شگری</h3>
                <p className="nori-font footer-text">ہمارا مقصد جدید میڈیا کے ذریعے اسلامی تعلیمات، ثقافت اور امن کا پیغام دنیا بھر میں عام کرنا ہے۔</p>
             </div>
@@ -325,92 +334,76 @@ export default function HomePage() {
         
         .font-english { font-family: 'Cinzel', serif; letter-spacing: 1px; }
 
-        /* روحانی پٹی */
         .spiritual-bar { background: var(--royal); color: #ffd700; text-align: center; padding: 4px; font-family: 'Amiri', serif; font-size: 0.9rem; border-bottom: 2px solid var(--gold); }
         
-        /* ہیڈر: پی سی پر فکس */
         .hero-header { height: 300px; width: 100%; position: relative; overflow: hidden; border-bottom: 4px solid var(--gold); }
         .header-bg { position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; z-index: 1; }
         .header-bg.active { opacity: 1; z-index: 2; }
 
+        /* مینیو بار: اردو */
         .sticky-nav { position: sticky; top: 0; background: var(--royal); z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-bottom: 3px solid var(--gold); padding: 0; }
         .nav-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; padding: 5px; }
         
-        /* مینیو بٹن: 2 یا 3 لائنوں میں آ جائیں گے */
+        /* مینیو بٹن */
         .nav-link-royal { 
             color: #fff; padding: 8px 15px; text-decoration: none; font-weight: bold; 
-            font-size: 1rem; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; 
-            text-transform: uppercase; margin: 2px; border-radius: 4px; font-family: 'Jameel Noori Nastaleeq', serif;
+            font-size: 1.1rem; /* اردو کے لیے سائز تھوڑا بڑا */
+            border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; 
+            margin: 2px; border-radius: 4px; 
+            /* اردو فونٹ */
+            font-family: 'Jameel Noori Nastaleeq', 'Gulzar', serif;
+            line-height: 1.4;
         }
         .nav-link-royal:hover { background: var(--gold); color: white; border-color: white; }
+        
+        /* "زبانیں" بٹن کے لیے خاص اسٹائل */
+        .special-lang-btn { background: rgba(255,215,0,0.2); border-color: #ffd700; }
+        .special-lang-btn:hover { background: #ffd700; color: black; }
 
-        /* نام اور ٹکر: گیپ ختم کر دیا گیا */
         .title-section { text-align: center; padding: 10px 15px 0px 15px; background: #fff; margin-bottom: 0; }
         .title-box { display: inline-block; padding: 5px 20px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
         
-        /* نام: خالص گولڈن (#aa862e) اور فل بولڈ */
+        /* نام: بہت بولڈ اور بڑا */
         .main-name { 
-            font-size: 2.5rem; color: #aa862e !important; margin: 0; 
-            text-transform: uppercase; letter-spacing: 1px; font-weight: 900; 
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+            font-size: clamp(2.2rem, 6vw, 3.5rem); /* Responsive Size */
+            color: #aa862e !important; margin: 0; 
+            text-transform: uppercase; letter-spacing: 1px; 
+            font-weight: 900; /* Extra Extra Bold */
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
         }
-        .designation { color: var(--gold); margin: 5px 0 0; font-family: sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; }
+        /* عہدہ: چھوٹا */
+        .designation { color: var(--gold); margin: 5px 0 0; font-family: sans-serif; font-weight: 400; font-size: 0.8rem; letter-spacing: 1px; opacity: 0.9; }
 
-        /* ٹکر کا مارجن ختم */
         .news-ticker { background: var(--gold); height: 30px; overflow: hidden; display: flex; align-items: center; margin-top: 5px; }
         .ticker-content { width: 100%; overflow: hidden; }
         .ticker-content p { white-space: nowrap; animation: scrollLeft 40s linear infinite; color: white; font-weight: bold; margin: 0; font-family: sans-serif; font-size: 0.9rem; }
         
         .section-container { max-width: 1000px; margin: 20px auto; padding: 0 15px; width: 100%; box-sizing: border-box; }
         
-        /* --- اعزازات: PC پر چھوٹے اور آمنے سامنے --- */
-        .honors-grid-controlled { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); /* دو کالمز لازمی */
-            gap: 15px; margin-bottom: 15px; max-width: 600px; margin: 0 auto; /* میکس وڈتھ کم تاکہ چھوٹے رہیں */
-        }
-        .honor-card-gold { 
-            background: var(--gold); color: white; border-radius: 10px; padding: 10px; 
-            text-align: center; border: 2px solid #8a6d20; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center;
-            min-height: 80px; /* سائز کنٹرولڈ */
-        }
+        .honors-grid-controlled { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 15px; max-width: 600px; margin: 0 auto; }
+        .honor-card-gold { background: var(--gold); color: white; border-radius: 10px; padding: 10px; text-align: center; border: 2px solid #8a6d20; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; min-height: 80px; }
         .honor-title { color: white; margin: 0; font-size: 1rem; text-shadow: 1px 1px 0 rgba(0,0,0,0.3); }
         .honor-sub { color: #eee; margin: 3px 0 0; font-size: 0.8rem; }
 
-        .awards-grid-equal { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 15px; margin-top: 20px; 
-        }
-        .award-item-gold { 
-            background: var(--gold); color: white; border: 2px solid #8a6d20; 
-            padding: 15px; display: flex; align-items: center; gap: 10px; 
-            border-radius: 8px; transition: 0.3s; min-height: 80px;
-        }
+        .awards-grid-equal { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
+        .award-item-gold { background: var(--gold); color: white; border: 2px solid #8a6d20; padding: 15px; display: flex; align-items: center; gap: 10px; border-radius: 8px; transition: 0.3s; min-height: 80px; }
         .award-item-gold:hover { transform: translateY(-3px); background: var(--royal); border-color: white; }
         .award-text-area { text-align: right; }
         .award-title { color: white; font-size: 1rem; font-weight: bold; display: block; }
         .award-sub { font-size: 0.8rem; color: #eee; }
 
-        .journey-grid-compact { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-            gap: 10px; justify-content: center;
-        }
-        .journey-box { 
-            background: var(--gold); color: white; padding: 15px; border-radius: 10px; 
-            text-align: center; text-decoration: none; transition: 0.3s; 
-            border: 2px solid #8a6d20; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; min-height: 120px; 
-        }
+        .journey-grid-compact { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; justify-content: center; }
+        .journey-box { background: var(--gold); color: white; padding: 15px; border-radius: 10px; text-align: center; text-decoration: none; transition: 0.3s; border: 2px solid #8a6d20; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 120px; }
         .journey-box:hover { background: var(--royal); color: white; border-color: white; transform: translateY(-5px); }
         .j-icon { font-size: 1.3rem; margin-bottom: 5px; color: white; }
         .j-title { font-size: 0.9rem; }
 
         .welcome-card { background: white; padding: 25px; text-align: center; position: relative; background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px); background-size: 20px 20px; }
         .royal-border { border: 4px double var(--gold); outline: 1px solid var(--royal); outline-offset: -6px; border-radius: 8px; }
-        .bismillah-small { font-family: 'Amiri'; font-size: 1.5rem; color: var(--royal); margin-bottom: 10px; }
+        
+        /* بسم اللہ: چھوٹا سائز */
+        .bismillah-small { font-family: 'Amiri'; font-size: 1.2rem; color: var(--royal); margin-bottom: 5px; opacity: 0.8; }
+        
         .welcome-text { font-size: 1.1rem; line-height: 2; text-align: justify; color: #333; margin-bottom: 15px; }
         .founder-signature span { font-size: 1.4rem; color: var(--royal); border-bottom: 2px solid var(--gold); }
 
@@ -479,25 +472,22 @@ export default function HomePage() {
         .float-whatsapp { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; z-index: 9999; }
         .float-scroll { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: var(--gold); color: white; border: none; border-radius: 50%; cursor: pointer; z-index: 9999; font-size: 1.2rem; }
         
-        /* موبائل سیٹنگز - فائنل ٹچ */
         @media (max-width: 768px) {
-            .hero-header { height: 150px; } /* حکم کے مطابق چھوٹا */
-            .spiritual-bar { font-size: 0.7rem; padding: 2px; } /* ماشاءاللہ چھوٹا */
-
+            .hero-header { height: 150px; }
+            .spiritual-bar { font-size: 0.7rem; padding: 2px; }
             .main-name { font-size: 4.5vw; white-space: nowrap; margin-top: 2px; } 
-            
-            /* موبائل پر گیپ کم */
             .section-container { margin: 10px auto; }
             .section-heading { margin-bottom: 5px; } 
             
-            .nav-link-royal { font-size: 0.8rem; padding: 5px 10px; margin: 2px; }
-            
-            /* باکسز ایک لائن میں */
+            /* مینیو موبائل پر */
+            .nav-link-royal { 
+                font-size: 0.9rem; /* موبائل پر سائز */
+                padding: 6px 10px; margin: 2px; 
+            }
             .honors-grid-controlled { grid-template-columns: repeat(2, 1fr); gap: 5px; } 
             .honor-card-gold { padding: 8px; min-height: 70px; } 
             .honor-title { font-size: 0.9rem; }
             .honor-sub { font-size: 0.65rem; }
-            
             .awards-grid-equal { grid-template-columns: repeat(1, 1fr); } 
             .social-icons-grid { justify-content: center; }
         }
