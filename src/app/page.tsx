@@ -1,4 +1,3 @@
-
 'use client';
 import React, { useState, useEffect } from 'react';
 import { homeData } from './homeData';
@@ -40,6 +39,15 @@ export default function HomePage() {
   const handleLike = (index: number) => { const nc = [...comments]; nc[index].likes += 1; setComments(nc); };
   const handleDelete = (index: number) => { const nc = [...comments]; nc[index].splice(index, 1); setComments(nc); };
 
+  // مینیو آئٹمز (انگلش میں - تاکہ اردو انگلش مکس نہ ہو)
+  const menuItems = [
+    { label: "Home", link: "/" },
+    { label: "About", link: "/about" },
+    { label: "Visual Quran", link: "/project" },
+    { label: "Gallery", link: "/gallery" },
+    { label: "Contact", link: "/contact" },
+  ];
+
   return (
     <div className="main-container">
       
@@ -48,7 +56,7 @@ export default function HomePage() {
         <span>ماشآءَ اللَّهُ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</span>
       </div>
 
-      {/* 2. ہیڈر (سائز فکسڈ) */}
+      {/* 2. ہیڈر */}
       <header className="hero-header">
         {homeData.headerImages && homeData.headerImages.map((img, index) => (
           <img 
@@ -58,27 +66,26 @@ export default function HomePage() {
         ))}
       </header>
 
-      {/* 3. مینیو بار (اب بہتر ڈیزائن میں) */}
+      {/* 3. مینیو بار (انگلش میں) */}
       <nav className="sticky-nav">
         <div className="nav-container">
-           {homeData.navItems && homeData.navItems.map((item, index) => (
-             <a key={index} href={item.link} className="nav-link-royal nori-font">
+           {menuItems.map((item, index) => (
+             <a key={index} href={item.link} className="nav-link-royal font-english">
                {item.label}
              </a>
            ))}
         </div>
       </nav>
 
-      {/* 4. نام اور عہدہ (ایک لائن اور کم گیپ) */}
+      {/* 4. نام (بولڈ اور گولڈن) */}
       <div className="title-section">
         <div className="title-box">
-           <h1 className="main-name">Haji Shabbir Ahmed Shigri</h1>
-           {/* ڈیوائیڈر ہٹا دیا تاکہ گیپ کم ہو جائے */}
+           <h1 className="main-name font-english">Haji Shabbir Ahmed Shigri</h1>
            <p className="designation">Senior Journalist | Cultural Expert | Founder Noor-ul-Quran</p>
         </div>
       </div>
 
-      {/* 5. نیوز ٹکر (گیپ کم) */}
+      {/* 5. نیوز ٹکر */}
       <div className="news-ticker">
         <div className="ticker-content">
           <p>★ "ONE MAN ARMY" of Media Industry ★ FIRST TIME IN THE WORLD: Visual Quran Project ★ Representative of Astan Quds Razavi ★ Founder of Noor Productions ★</p>
@@ -96,7 +103,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. کوئیک نیویگیشن (گولڈن باکسز) */}
+      {/* 7. کوئیک نیویگیشن */}
       <section className="section-container">
         <h2 className="nori-font section-heading">فوری روابط (Quick Links)</h2>
         <div className="nav-grid">
@@ -124,9 +131,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9. اعزازات (اب لیموں نہیں، سونا ہے) */}
+      {/* 9. اعزازات (برابر سائز اور بارڈر) */}
       <section className="section-container">
         <h2 className="nori-font section-heading">اعزازاتِ مقدسہ</h2>
+        
+        {/* بڑے باکسز کا گرڈ */}
         <div className="honors-grid">
           {homeData.specialHonors && homeData.specialHonors.map((honor, index) => (
             <div key={index} className="honor-card-gold">
@@ -136,11 +145,12 @@ export default function HomePage() {
           ))}
         </div>
         
-        <div className="awards-grid-inline">
+        {/* چھوٹے ایوارڈز کا گرڈ (برابر سائز) */}
+        <div className="awards-grid-equal">
            {homeData.awards && homeData.awards.map((aw, i) => (
              <div key={i} className="award-item-gold">
                <span className="award-icon">{aw.icon}</span>
-               <div>
+               <div className="award-text-area">
                  <strong className="award-title">{aw.title}</strong>
                  <br/><span className="award-sub">{aw.sub}</span>
                </div>
@@ -149,10 +159,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 11. پیشہ ورانہ سفر (گولڈن) */}
+      {/* 11. پیشہ ورانہ سفر (گرڈ سسٹم - تاکہ پی سی پر نہ پھیلیں) */}
       <section className="section-container">
         <h2 className="nori-font section-heading">پیشہ ورانہ سفر (Journey)</h2>
-        <div className="journey-grid">
+        <div className="journey-grid-system">
           {homeData.journey && homeData.journey.map((j, i) => (
              <a key={i} href={j.link} className="journey-box">
                 <div className="j-icon">{j.icon}</div>
@@ -308,81 +318,98 @@ export default function HomePage() {
       {/* --- CSS --- */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Gulzar&family=Amiri:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap'); /* English Font */
         
         :root { 
             --royal: #002B5B; 
-            --gold: #aa862e; /* ٹکر والا اصلی سونا */
+            --gold: #aa862e; 
             --light-gold: #fcf6ba; 
         }
         
         html, body { margin: 0; padding: 0; background: #fdfdfd; font-family: 'Jameel Noori Nastaleeq', 'Gulzar', serif; direction: rtl; overflow-x: hidden; width: 100%; }
         
+        /* انگریزی فونٹ کے لیے کلاس */
+        .font-english { font-family: 'Cinzel', serif; letter-spacing: 1px; }
+
         .spiritual-bar { background: var(--royal); color: #ffd700; text-align: center; padding: 4px; font-family: 'Amiri', serif; font-size: 0.9rem; border-bottom: 2px solid var(--gold); }
         
-        /* ہیڈر: موبائل پر سائز فکس اور اوور فلو بند */
+        /* ہیڈر */
         .hero-header { height: 300px; width: 100%; position: relative; overflow: hidden; border-bottom: 4px solid var(--gold); }
         .header-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s; }
         .header-bg.active { opacity: 1; }
 
-        /* مینیو بار: خوبصورت اور سمارٹ */
+        /* مینیو */
         .sticky-nav { position: sticky; top: 0; background: var(--royal); z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-bottom: 3px solid var(--gold); padding: 0; }
         .nav-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; }
-        
         .nav-link-royal { 
-            color: #fff; 
-            padding: 10px 20px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            font-family: 'Jameel Noori Nastaleeq', serif; 
-            font-size: 1.1rem; 
-            border-left: 1px solid rgba(255,255,255,0.2);
-            transition: 0.3s; 
-            display: inline-block;
+            color: #fff; padding: 10px 20px; text-decoration: none; font-weight: bold; 
+            font-size: 1rem; border-left: 1px solid rgba(255,255,255,0.2); transition: 0.3s; 
+            text-transform: uppercase;
         }
-        .nav-link-royal:hover { background: var(--gold); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-        .nav-link-royal:last-child { border-left: none; }
+        .nav-link-royal:hover { background: var(--gold); color: white; }
 
-        /* نام اور گیپ کنٹرول */
-        .title-section { text-align: center; padding: 10px 15px; background: #fff; } /* پیڈنگ کم کی */
+        /* نام اور ٹائٹل - بولڈ */
+        .title-section { text-align: center; padding: 10px 15px; background: #fff; }
         .title-box { display: inline-block; padding: 5px 20px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
-        .main-name { font-size: 2.2rem; color: var(--royal); margin: 0; text-transform: uppercase; letter-spacing: 2px; font-family: 'Times New Roman', serif; line-height: 1.2; }
-        .gold-divider { height: 3px; background: var(--gold); width: 100px; margin: 5px auto; }
+        .main-name { 
+            font-size: 2.5rem; color: var(--royal); margin: 0; 
+            text-transform: uppercase; letter-spacing: 2px; font-weight: 900; /* Extra Bold */
+            text-shadow: 1px 1px 0px #ccc;
+        }
         .designation { color: var(--gold); margin: 5px 0 0; font-family: sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; }
 
-        /* ٹکر */
         .news-ticker { background: var(--gold); height: 30px; overflow: hidden; display: flex; align-items: center; margin-top: 5px; }
         .ticker-content { width: 100%; overflow: hidden; }
         .ticker-content p { white-space: nowrap; animation: scrollLeft 40s linear infinite; color: white; font-weight: bold; margin: 0; font-family: sans-serif; font-size: 0.9rem; }
         
         .section-container { max-width: 1000px; margin: 20px auto; padding: 0 15px; width: 100%; box-sizing: border-box; }
         
-        /* باکسز اب اصلی سونے میں */
-        .honor-card-gold { background: var(--gold); color: white; border-radius: 10px; padding: 20px; text-align: center; border: 1px solid #8a6d20; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .honor-title { color: white; margin: 0; font-size: 1.3rem; text-shadow: 1px 1px 0 rgba(0,0,0,0.3); }
-        .honor-sub { color: #eee; margin: 5px 0 0; font-size: 0.9rem; }
-
-        .award-item-gold { background: var(--gold); color: white; border: 1px solid #8a6d20; padding: 10px; display: flex; align-items: center; gap: 8px; border-radius: 8px; transition: 0.3s; }
-        .award-item-gold:hover { transform: translateY(-3px); background: var(--royal); border-color: white; }
-        .award-title { color: white; font-size: 0.9rem; font-weight: bold; }
-        .award-sub { font-size: 0.7rem; color: #eee; }
-
-        .journey-box { background: var(--gold); color: white; padding: 15px; border-radius: 10px; text-align: center; text-decoration: none; transition: 0.3s; border: 1px solid #8a6d20; display: block; }
-        .journey-box:hover { background: var(--royal); color: white; border-color: white; transform: translateY(-5px); }
-        .journey-box .j-title, .journey-box .j-sub { color: white; }
-        .j-icon { font-size: 1.5rem; margin-bottom: 5px; color: white; }
-
-        /* لیجنڈز: سائز اور رنگ */
-        .legend-card { width: 200px; flex-shrink: 0; background: white; border-radius: 10px; overflow: hidden; border: 1px solid #ddd; }
-        .legend-img { position: relative; height: 130px; }
-        .legend-img img { width: 100%; height: 100%; object-fit: cover; }
-        .play-icon-small { font-size: 1.5rem; color: white; }
+        /* --- اعزازات اور سفر: گرڈ سسٹم (Equal Height & Border) --- */
         
-        /* لیجنڈ انفارمیشن باکس اب گولڈن */
-        .legend-info { padding: 5px; text-align: center; background: var(--gold); border-top: 1px solid white; color: white; }
-        .legend-name { margin: 0; font-size: 0.9rem; color: white; font-weight: bold; }
-        .designation-text { font-size: 0.7rem; margin: 2px 0; color: #eee; }
+        /* بڑے اعزازات (2 کالم) */
+        .honors-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 15px; margin-bottom: 15px;
+        }
+        .honor-card-gold { 
+            background: var(--gold); color: white; border-radius: 10px; padding: 20px; 
+            text-align: center; border: 2px solid #8a6d20; /* واضح بارڈر */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center;
+            min-height: 120px; /* فکسڈ ہائٹ */
+        }
 
-        /* باقی کلاسز */
+        /* چھوٹے ایوارڈز (3 کالم برابر سائز) */
+        .awards-grid-equal { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* بہتر سائز */
+            gap: 15px; margin-top: 20px; 
+        }
+        .award-item-gold { 
+            background: var(--gold); color: white; border: 2px solid #8a6d20; 
+            padding: 15px; display: flex; align-items: center; gap: 10px; 
+            border-radius: 8px; transition: 0.3s; min-height: 80px; /* برابر ہائٹ */
+        }
+        .award-item-gold:hover { transform: translateY(-3px); background: var(--royal); border-color: white; }
+        .award-text-area { text-align: right; }
+        .award-title { color: white; font-size: 1rem; font-weight: bold; display: block; }
+        .award-sub { font-size: 0.8rem; color: #eee; }
+
+        /* پیشہ ورانہ سفر (چھوٹے باکسز گرڈ میں) */
+        .journey-grid-system { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* آٹو فل تاکہ پھیلیں نہیں */
+            gap: 15px; justify-content: center;
+        }
+        .journey-box { 
+            background: var(--gold); color: white; padding: 20px; border-radius: 10px; 
+            text-align: center; text-decoration: none; transition: 0.3s; 
+            border: 2px solid #8a6d20; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; min-height: 150px;
+        }
+        .journey-box:hover { background: var(--royal); color: white; border-color: white; transform: translateY(-5px); }
+
+        /* --- باقی کلاسز --- */
         .welcome-card { background: white; padding: 25px; text-align: center; position: relative; background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px); background-size: 20px 20px; }
         .royal-border { border: 4px double var(--gold); outline: 1px solid var(--royal); outline-offset: -6px; border-radius: 8px; }
         .bismillah-small { font-family: 'Amiri'; font-size: 1.5rem; color: var(--royal); margin-bottom: 10px; }
@@ -405,13 +432,17 @@ export default function HomePage() {
         .project-desc-bold { font-size: 1.2rem; color: #000; margin-bottom: 15px; font-weight: 800; text-shadow: 1px 1px 0px #fff; }
         .gold-btn-shiny { background: linear-gradient(45deg, #ffd700, #b8860b); color: black; padding: 10px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        .honors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .awards-grid-inline { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 20px; }
-
         .section-heading { text-align: center; color: var(--royal); font-size: 1.6rem; margin-bottom: 15px; }
         .slider-track-container { width: 100%; overflow: hidden; padding: 10px 0; }
         .slider-track { display: flex; gap: 20px; width: max-content; animation: scroll 60s linear infinite; }
         .slider-track:hover { animation-play-state: paused; }
+        .legend-card { width: 200px; flex-shrink: 0; background: white; border-radius: 10px; overflow: hidden; border: 1px solid #ddd; }
+        .legend-img { position: relative; height: 130px; }
+        .legend-img img { width: 100%; height: 100%; object-fit: cover; }
+        .play-icon-small { font-size: 1.5rem; color: white; }
+        .legend-info { padding: 5px; text-align: center; background: var(--gold); border-top: 1px solid white; color: white; }
+        .legend-name { margin: 0; font-size: 0.9rem; color: white; font-weight: bold; }
+        .designation-text { font-size: 0.7rem; margin: 2px 0; color: #eee; }
 
         .slider-track.reverse { animation: scrollReverse 60s linear infinite; }
         .book-card-style { width: 130px; flex-shrink: 0; text-align: center; border: 1px solid var(--gold); border-radius: 6px; padding: 4px; background: white; }
@@ -436,7 +467,13 @@ export default function HomePage() {
         .footer-links li { margin-bottom: 5px; }
         .footer-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; }
         
-        .social-icons-grid { display: flex; gap: 6px; flex-wrap: nowrap; margin-top: 5px; justify-content: flex-start; overflow-x: auto; }
+        /* SOCIAL ICONS: PC par 1 line, Mobile par Scroll */
+        .social-icons-grid { 
+            display: flex; gap: 6px; 
+            flex-wrap: nowrap; /* PC par bhi 1 line */
+            margin-top: 5px; justify-content: flex-start; 
+            overflow-x: auto; /* Mobile par scroll */
+        }
         .social-btn-original { width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid var(--gold); border-radius: 50%; transition: 0.3s; padding: 3px; }
         .social-btn-original img { width: 100%; height: 100%; object-fit: contain; }
         .social-btn-original:hover { transform: translateY(-2px); box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
@@ -450,23 +487,15 @@ export default function HomePage() {
         .float-whatsapp { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; z-index: 9999; }
         .float-scroll { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: var(--gold); color: white; border: none; border-radius: 50%; cursor: pointer; z-index: 9999; font-size: 1.2rem; }
         
-        /* موبائل کے لیے خاص سیٹنگز */
+        /* موبائل سیٹنگز */
         @media (max-width: 768px) {
-            .hero-header { height: 160px; } /* ہیڈر مزید چھوٹا تاکہ فٹ رہے */
+            .hero-header { height: 160px; }
+            /* نام موبائل پر ایک لائن میں */
+            .main-name { font-size: 4.5vw; white-space: nowrap; margin-top: 5px; } 
             
-            /* نام کو ایک لائن میں لانے کے لیے فونٹ سائز آٹو ایڈجسٹ */
-            .main-name { font-size: 5vw; margin-top: 5px; } 
-            
-            .nav-link-royal { 
-                font-size: 0.85rem; 
-                padding: 6px 12px; 
-                border-left: none; 
-                background: rgba(255,255,255,0.1); 
-                margin: 3px; 
-                border-radius: 4px;
-                border: 1px solid var(--gold); /* موبائل پر بارڈر تاکہ اچھا لگے */
-            }
-            .awards-grid-inline { grid-template-columns: repeat(2, 1fr); }
+            .nav-link-royal { font-size: 0.85rem; padding: 6px 12px; background: rgba(255,255,255,0.1); margin: 3px; border-radius: 4px; border: 1px solid var(--gold); }
+            .awards-grid-equal { grid-template-columns: repeat(1, 1fr); } /* موبائل پر ایک کالم */
+            .honors-grid { grid-template-columns: repeat(1, 1fr); }
             .social-icons-grid { justify-content: center; }
             .section-container { margin: 10px auto; }
         }
