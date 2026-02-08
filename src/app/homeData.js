@@ -1,4 +1,5 @@
 export const homeData = {
+  // آپ کی فراہم کردہ 6 نئی تصاویر
   headerImages: [
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/1_shgdib.png",
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/2_sn9tyl.png",
@@ -7,7 +8,7 @@ export const homeData = {
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/5_s7hgrb.png",
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104582/6_oqageq.png",
   ],
-  
+
   navItems: [
     { label: "ہوم", link: "/" },
     { label: "نور القرآن", link: "/project" },
@@ -25,10 +26,6 @@ export const homeData = {
     founder: "حاجی شبیر احمد شگری"
   },
 
-  // ... باقی سارا ڈیٹا ویسے ہی رہنے دیں ...
-  // (اگر آپ کے پاس نیچے والا کوڈ موجود ہے تو اسے چھیڑنے کی ضرورت نہیں)
-  // بس اوپر والا headerImages والا حصہ تبدیل کر لیں۔
-  
   quickLinks: [
     { title: "نور القرآن", link: "/project", icon: "📖" },
     { title: "یوٹیوب", link: "https://youtube.com/@shabbirshigri", icon: "📺" },
