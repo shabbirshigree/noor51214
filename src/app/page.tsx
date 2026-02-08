@@ -4,7 +4,7 @@ import { homeData } from './homeData';
 
 export default function HomePage() {
   const [currentImg, setCurrentImg] = useState(0);
-  const [videoModal, setVideoModal] = useState(null);
+  const [videoModal, setVideoModal] = useState<string | null>(null); // Type fixed
   const [showScroll, setShowScroll] = useState(false);
   
   // کمنٹس سٹیٹ
@@ -29,15 +29,17 @@ export default function HomePage() {
     return () => { clearInterval(timer); window.removeEventListener('scroll', handleScroll); };
   }, []);
 
-  const handleAddComment = (e) => {
+  // --- یہ وہ لائن ہے جہاں ایرر تھا، اب ٹھیک کر دیا گیا ہے ---
+  const handleAddComment = (e: React.FormEvent) => {
     e.preventDefault();
     if (newComment && newName) {
       setComments([{ name: newName, msg: newComment, likes: 0 }, ...comments]);
       setNewComment(""); setNewName("");
     }
   };
-  const handleLike = (index) => { const nc = [...comments]; nc[index].likes += 1; setComments(nc); };
-  const handleDelete = (index) => { const nc = [...comments]; nc[index].splice(index, 1); setComments(nc); };
+
+  const handleLike = (index: number) => { const nc = [...comments]; nc[index].likes += 1; setComments(nc); };
+  const handleDelete = (index: number) => { const nc = [...comments]; nc[index].splice(index, 1); setComments(nc); };
 
   return (
     <div className="main-container">
@@ -49,7 +51,7 @@ export default function HomePage() {
 
       {/* 2. ہیڈر */}
       <header className="hero-header">
-        {homeData.headerImages.map((img, index) => (
+        {homeData.headerImages && homeData.headerImages.map((img, index) => (
           <img 
             key={index} src={img} alt="Header" 
             className={`header-bg ${index === currentImg ? 'active' : ''}`}
@@ -60,7 +62,7 @@ export default function HomePage() {
       {/* 3. مینیو بار */}
       <nav className="sticky-nav">
         <div className="nav-container">
-           {homeData.navItems.map((item, index) => (
+           {homeData.navItems && homeData.navItems.map((item, index) => (
              <a key={index} href={item.link} className="nav-link-classic nori-font">
                {item.label}
              </a>
@@ -99,7 +101,7 @@ export default function HomePage() {
       <section className="section-container">
         <h2 className="nori-font section-heading">فوری روابط (Quick Links)</h2>
         <div className="nav-grid">
-          {homeData.quickLinks.map((item, index) => (
+          {homeData.quickLinks && homeData.quickLinks.map((item, index) => (
             <a key={index} href={item.link} className="quick-nav-card">
               <div className="quick-icon">{item.icon}</div>
               <h3 className="nori-font">{item.title}</h3>
@@ -127,7 +129,7 @@ export default function HomePage() {
       <section className="section-container">
         <h2 className="nori-font section-heading">اعزازاتِ مقدسہ</h2>
         <div className="honors-grid">
-          {homeData.specialHonors.map((honor, index) => (
+          {homeData.specialHonors && homeData.specialHonors.map((honor, index) => (
             <div key={index} className="honor-card-gold">
                <h3 className="nori-font honor-title">{honor.title}</h3>
                <p className="nori-font honor-sub">{honor.shrine}</p>
@@ -136,7 +138,7 @@ export default function HomePage() {
         </div>
         
         <div className="awards-grid-inline">
-           {homeData.awards.map((aw, i) => (
+           {homeData.awards && homeData.awards.map((aw, i) => (
              <div key={i} className="award-item-gold">
                <span className="award-icon">{aw.icon}</span>
                <div>
@@ -152,7 +154,7 @@ export default function HomePage() {
       <section className="section-container">
         <h2 className="nori-font section-heading">پیشہ ورانہ سفر (Journey)</h2>
         <div className="journey-grid">
-          {homeData.journey.map((j, i) => (
+          {homeData.journey && homeData.journey.map((j, i) => (
              <a key={i} href={j.link} className="journey-box">
                 <div className="j-icon">{j.icon}</div>
                 <h4 className="j-title">{j.title}</h4>
@@ -167,7 +169,7 @@ export default function HomePage() {
         <h2 className="nori-font section-heading">اہم شخصیات (Legends)</h2>
         <div className="slider-track-container">
           <div className="slider-track">
-            {homeData.legends.map((legend, i) => (
+            {homeData.legends && homeData.legends.map((legend, i) => (
               <div key={i} className="legend-card" onClick={() => setVideoModal(legend.video)}>
                 <div className="legend-img">
                   <img src={legend.img} alt={legend.name} />
@@ -179,7 +181,7 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
-             {homeData.legends.map((legend, i) => (
+             {homeData.legends && homeData.legends.map((legend, i) => (
               <div key={i+'d'} className="legend-card" onClick={() => setVideoModal(legend.video)}>
                 <div className="legend-img"><img src={legend.img}/><div className="play-overlay"><span className="play-icon-small">▶</span></div></div>
                 <div className="legend-info"><h3 className="nori-font legend-name">{legend.name}</h3><p className="nori-font designation-text">{legend.role}</p></div>
@@ -194,12 +196,12 @@ export default function HomePage() {
         <h2 className="nori-font section-heading">تصنیفات (Books)</h2>
         <div className="slider-track-container">
           <div className="slider-track reverse">
-            {homeData.books.map((book, i) => (
+            {homeData.books && homeData.books.map((book, i) => (
               <div key={i} className="book-card-style">
                 <img src={book.img} alt={book.title} />
               </div>
             ))}
-            {homeData.books.map((book, i) => (
+            {homeData.books && homeData.books.map((book, i) => (
               <div key={i+'d'} className="book-card-style">
                 <img src={book.img} alt={book.title} />
               </div>
@@ -272,7 +274,7 @@ export default function HomePage() {
             <div className="f-col">
                <h3 className="nori-font">سوشل میڈیا</h3>
                <div className="social-icons-grid">
-                 {homeData.socialLinks.map((social, i) => (
+                 {homeData.socialLinks && homeData.socialLinks.map((social, i) => (
                    <a key={i} href={social.link} target="_blank" className="social-btn-original" title={social.name}>
                      <img src={social.icon} alt={social.name} />
                    </a>
