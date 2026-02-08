@@ -40,12 +40,12 @@ export default function HomePage() {
   const handleLike = (index: number) => { const nc = [...comments]; nc[index].likes += 1; setComments(nc); };
   const handleDelete = (index: number) => { const nc = [...comments]; nc[index].splice(index, 1); setComments(nc); };
 
-  // مینیو (خالص اردو)
+  // مینیو (زبان بٹن ہٹا دیا، تحریریں شامل)
   const menuItems = [
-    { label: "زبانیں 🌍", link: "/languages" }, // الگ سے نمایاں
     { label: "ہوم", link: "/" },
     { label: "نور القرآن", link: "/project" },
-    { label: "تعارف", link: "/about" }, // About Me
+    { label: "تعارف", link: "/about" }, 
+    { label: "تحریریں", link: "/articles" }, // Articles Added
     { label: "چینلز", link: "/channels" },
     { label: "لائبریری", link: "/library" },
     { label: "گیلری", link: "/gallery" },
@@ -56,12 +56,17 @@ export default function HomePage() {
   return (
     <div className="main-container">
       
-      {/* 1. روحانی حفاظتی پٹی */}
+      {/* 1. زبان کا فلوٹنگ بٹن (سائیڈ پر) */}
+      <button className="lang-float-btn">
+         🌍 English
+      </button>
+
+      {/* 2. روحانی حفاظتی پٹی */}
       <div className="spiritual-bar">
         <span>ماشآءَ اللَّهُ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</span>
       </div>
 
-      {/* 2. ہیڈر */}
+      {/* 3. ہیڈر */}
       <header className="hero-header">
         {homeData.headerImages && homeData.headerImages.map((img, index) => (
           <img 
@@ -71,35 +76,33 @@ export default function HomePage() {
         ))}
       </header>
 
-      {/* 3. مینیو بار (اردو) */}
+      {/* 4. مینیو بار */}
       <nav className="sticky-nav">
         <div className="nav-container">
            {menuItems.map((item, index) => (
-             <a key={index} href={item.link} className={`nav-link-royal nori-font ${index === 0 ? 'special-lang-btn' : ''}`}>
+             <a key={index} href={item.link} className="nav-link-royal nori-font">
                {item.label}
              </a>
            ))}
         </div>
       </nav>
 
-      {/* 4. نام (بہت بڑا اور بولڈ) */}
+      {/* 5. نام (بہت موٹا اور نمایاں) */}
       <div className="title-section">
         <div className="title-box">
-           {/* فونٹ انگلش لیکن بہت بولڈ */}
            <h1 className="main-name font-english">Haji Shabbir Ahmed Shigri</h1>
-           {/* عہدہ چھوٹا */}
            <p className="designation">Senior Journalist | Cultural Expert | Founder Noor-ul-Quran</p>
         </div>
       </div>
 
-      {/* 5. نیوز ٹکر */}
+      {/* 6. نیوز ٹکر */}
       <div className="news-ticker">
         <div className="ticker-content">
           <p>★ "ONE MAN ARMY" of Media Industry ★ FIRST TIME IN THE WORLD: Visual Quran Project ★ Representative of Astan Quds Razavi ★ Founder of Noor Productions ★</p>
         </div>
       </div>
 
-      {/* 6. ویلکم سیکشن (بسم اللہ چھوٹی) */}
+      {/* 7. ویلکم سیکشن */}
       <section className="section-container">
         <div className="welcome-card royal-border">
           <div className="bismillah-small">﷽</div>
@@ -110,7 +113,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. کوئیک نیویگیشن */}
+      {/* 8. کوئیک نیویگیشن */}
       <section className="section-container">
         <h2 className="nori-font section-heading">فوری روابط (Quick Links)</h2>
         <div className="nav-grid">
@@ -123,7 +126,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. نور القرآن پروجیکٹ */}
+      {/* 9. نور القرآن پروجیکٹ */}
       <section className="section-container">
         <div className="project-highlight-white">
           <div className="project-info">
@@ -138,7 +141,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9. اعزازات */}
+      {/* 10. اعزازات */}
       <section className="section-container">
         <h2 className="nori-font section-heading">اعزازاتِ مقدسہ</h2>
         <div className="honors-grid-controlled">
@@ -340,38 +343,49 @@ export default function HomePage() {
         .header-bg { position: absolute; top:0; left:0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; z-index: 1; }
         .header-bg.active { opacity: 1; z-index: 2; }
 
-        /* مینیو بار: اردو */
         .sticky-nav { position: sticky; top: 0; background: var(--royal); z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-bottom: 3px solid var(--gold); padding: 0; }
         .nav-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; padding: 5px; }
         
-        /* مینیو بٹن */
+        /* مینیو بٹن: اردو فونٹ کے ساتھ */
         .nav-link-royal { 
             color: #fff; padding: 8px 15px; text-decoration: none; font-weight: bold; 
-            font-size: 1.1rem; /* اردو کے لیے سائز تھوڑا بڑا */
-            border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; 
-            margin: 2px; border-radius: 4px; 
-            /* اردو فونٹ */
-            font-family: 'Jameel Noori Nastaleeq', 'Gulzar', serif;
-            line-height: 1.4;
+            font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; 
+            margin: 2px; border-radius: 4px; font-family: 'Jameel Noori Nastaleeq', serif;
+            line-height: 1.5;
         }
         .nav-link-royal:hover { background: var(--gold); color: white; border-color: white; }
-        
-        /* "زبانیں" بٹن کے لیے خاص اسٹائل */
-        .special-lang-btn { background: rgba(255,215,0,0.2); border-color: #ffd700; }
-        .special-lang-btn:hover { background: #ffd700; color: black; }
+
+        /* زبان کا فلوٹنگ بٹن */
+        .lang-float-btn {
+            position: fixed;
+            top: 20px; left: 20px;
+            background: rgba(255,255,255,0.9);
+            border: 2px solid var(--gold);
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 9999;
+            font-weight: bold;
+            color: var(--royal);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            font-family: sans-serif;
+        }
+        .lang-float-btn:hover { background: var(--royal); color: white; border-color: white; }
 
         .title-section { text-align: center; padding: 10px 15px 0px 15px; background: #fff; margin-bottom: 0; }
         .title-box { display: inline-block; padding: 5px 20px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
         
-        /* نام: بہت بولڈ اور بڑا */
+        /* نام: ایکسٹرا بولڈ اور ڈبل شیڈو */
         .main-name { 
-            font-size: clamp(2.2rem, 6vw, 3.5rem); /* Responsive Size */
+            font-size: clamp(2.5rem, 6vw, 4rem); /* Responsive */
             color: #aa862e !important; margin: 0; 
             text-transform: uppercase; letter-spacing: 1px; 
-            font-weight: 900; /* Extra Extra Bold */
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            font-weight: 900; 
+            /* ڈبل ٹیکسٹ شیڈو تاکہ بہت موٹا لگے */
+            text-shadow: 2px 2px 0px #8a6d20, -1px -1px 0 #8a6d20;
+            -webkit-text-stroke: 1px #8a6d20; /* Text Border */
         }
-        /* عہدہ: چھوٹا */
         .designation { color: var(--gold); margin: 5px 0 0; font-family: sans-serif; font-weight: 400; font-size: 0.8rem; letter-spacing: 1px; opacity: 0.9; }
 
         .news-ticker { background: var(--gold); height: 30px; overflow: hidden; display: flex; align-items: center; margin-top: 5px; }
@@ -400,10 +414,7 @@ export default function HomePage() {
 
         .welcome-card { background: white; padding: 25px; text-align: center; position: relative; background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px); background-size: 20px 20px; }
         .royal-border { border: 4px double var(--gold); outline: 1px solid var(--royal); outline-offset: -6px; border-radius: 8px; }
-        
-        /* بسم اللہ: چھوٹا سائز */
         .bismillah-small { font-family: 'Amiri'; font-size: 1.2rem; color: var(--royal); margin-bottom: 5px; opacity: 0.8; }
-        
         .welcome-text { font-size: 1.1rem; line-height: 2; text-align: justify; color: #333; margin-bottom: 15px; }
         .founder-signature span { font-size: 1.4rem; color: var(--royal); border-bottom: 2px solid var(--gold); }
 
@@ -458,30 +469,18 @@ export default function HomePage() {
         .footer-links li { margin-bottom: 5px; }
         .footer-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; }
         
-        .social-icons-grid { display: flex; gap: 6px; flex-wrap: nowrap; margin-top: 5px; justify-content: flex-start; overflow-x: auto; }
-        .social-btn-original { width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid var(--gold); border-radius: 50%; transition: 0.3s; padding: 3px; }
-        .social-btn-original img { width: 100%; height: 100%; object-fit: contain; }
-        .social-btn-original:hover { transform: translateY(-2px); box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
-        
-        .newsletter-box { display: flex; margin-top: 5px; }
-        .newsletter-box input { padding: 5px; border-radius: 0 4px 4px 0; border: none; width: 70%; }
-        .newsletter-box button { padding: 5px 10px; border-radius: 4px 0 0 4px; border: none; background: var(--gold); font-weight: bold; cursor: pointer; }
-
-        .footer-bottom { text-align: center; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; font-size: 0.8rem; }
-
-        .float-whatsapp { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; z-index: 9999; }
-        .float-scroll { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: var(--gold); color: white; border: none; border-radius: 50%; cursor: pointer; z-index: 9999; font-size: 1.2rem; }
-        
         @media (max-width: 768px) {
             .hero-header { height: 150px; }
             .spiritual-bar { font-size: 0.7rem; padding: 2px; }
+            /* موبائل پر نام کا سائز ایڈجسٹ */
             .main-name { font-size: 4.5vw; white-space: nowrap; margin-top: 2px; } 
+            
             .section-container { margin: 10px auto; }
             .section-heading { margin-bottom: 5px; } 
             
-            /* مینیو موبائل پر */
+            /* موبائل مینیو */
             .nav-link-royal { 
-                font-size: 0.9rem; /* موبائل پر سائز */
+                font-size: 0.9rem; 
                 padding: 6px 10px; margin: 2px; 
             }
             .honors-grid-controlled { grid-template-columns: repeat(2, 1fr); gap: 5px; } 
@@ -490,6 +489,9 @@ export default function HomePage() {
             .honor-sub { font-size: 0.65rem; }
             .awards-grid-equal { grid-template-columns: repeat(1, 1fr); } 
             .social-icons-grid { justify-content: center; }
+            
+            /* موبائل پر زبان کا بٹن تھوڑا چھوٹا */
+            .lang-float-btn { top: 10px; left: 10px; padding: 5px 10px; font-size: 0.8rem; }
         }
         @keyframes scrollLeft { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(50%); } }

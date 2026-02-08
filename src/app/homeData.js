@@ -1,8 +1,10 @@
 export const homeData = {
-  // 1. ہیڈر کی تصاویر
   headerImages: [
-    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/2_sn9tyl.png",
-    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/4_xaylj9.png"
+    // یہاں اپنی 4 تصویروں کے لنکس لگائیں
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698651/shabbir-header-1.jpg", 
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698652/shabbir-header-2.jpg",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698653/shabbir-header-3.jpg",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1706698654/shabbir-header-4.jpg",
   ],
 
   // 2. مینیو (آپ کی دی ہوئی 10 چیزوں والی لسٹ)
