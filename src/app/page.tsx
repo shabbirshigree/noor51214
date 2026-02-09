@@ -23,10 +23,35 @@ export default function HomePage() {
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104582/6_oqageq.png"
   ];
 
-  // --- اردو ٹکر ٹیکسٹ ---
-  const tickerText = `میں آپ کو اپنے آفیشل ویب سائیٹ پر خوش آمدید کہتا ہوں۔ یہ ویب سائٹ میری 45 سالہ صحافتی، ثقافتی، سماجی اور دینی خدمات کا ایک عاجزانہ عکس ہے۔ یہاں آپ کو میرے 'نور القرآن ویژول' جیسے عظیم پروجیکٹ سے لے کر میرے صحافتی کیریئر، فرھنگی خدمات، سوشل مصروفیات، ادبی کتب، میڈیا اور دستاویزی فلموں کا آن لائن مجموعہ ملے گا۔ اللہ کے فضل و کرم سے "نورالقرآن پراجیکٹ" کا آغاز ایک خواب کی تعبیر ہے۔ میں اس توفیق پر شکر گزار ہوں کہ اللہ تعالیٰ نے یہ منفرد خدمت میرے حصے میں ڈالی ہے۔ اس پراجیکٹ کا مقصد یہ ہے کہ قرآن کریم کو جدید سمعی و بصری (Audio-Visual) انداز میں پیش کیا جائے تاکہ نوجوان نسل اور عام انسان قرآن کو صرف پڑھنے نہیں بلکہ دل کی آنکھ سے دیکھنے اور سمجھنے لگیں۔ میری خواہش ہے کہ یہ پراجیکٹ قرآن کو دلوں میں اتارنے کا ذریعہ بنے۔`;
+  // --- ٹکر کا متن (بہت لمبا تاکہ گیپ نہ آئے) ---
+  const singleTickerPhrase = `میں آپ کو اپنے آفیشل ویب سائیٹ پر خوش آمدید کہتا ہوں۔ یہ ویب سائٹ میری 45 سالہ صحافتی، ثقافتی، سماجی اور دینی خدمات کا ایک عاجزانہ عکس ہے۔ یہاں آپ کو میرے 'نور القرآن ویژول' جیسے عظیم پروجیکٹ سے لے کر میرے صحافتی کیریئر، فرھنگی خدمات، سوشل مصروفیات، ادبی کتب، میڈیا اور دستاویزی فلموں کا آن لائن مجموعہ ملے گا۔ اللہ کے فضل و کرم سے "نورالقرآن پراجیکٹ" کا آغاز ایک خواب کی تعبیر ہے۔ اس پراجیکٹ کا مقصد یہ ہے کہ قرآن کریم کو جدید سمعی و بصری انداز میں پیش کیا جائے تاکہ نوجوان نسل اور عام انسان قرآن کو صرف پڑھنے نہیں بلکہ دل کی آنکھ سے دیکھنے اور سمجھنے لگیں۔`;
+  
+  // ہم جملے کو 3 بار دہرائیں گے تاکہ اسکرین بھری رہے
+  const tickerContent = [singleTickerPhrase, singleTickerPhrase, singleTickerPhrase];
 
-  // --- سلائیڈر ٹائمر ---
+  // --- ڈیٹا (3 بار کاپی کیا تاکہ سلائیڈر بھرا رہے) ---
+  const originalLegends = [
+    {n:"Hafiz Abdulghfar Roparhi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.jpg"},
+    {n:"Mian Manzoor Ahmed Watoo", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.jpg"},
+    {n:"Pir Ghullam Rasool Awesi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.jpg"},
+    {n:"Pir Usman Shah Noori", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.jpg"},
+    {n:"Pir Maoom Hussain Naqvi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.jpg"},
+    {n:"Dr. Muhammad Sadaqat Ali", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525503/7.Dr._Muhammad_Sadaqat_Ali_Afridi_k6w0nh.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525503/7.Dr._Muhammad_Sadaqat_Ali_Afridi_k6w0nh.jpg"},
+  ];
+  // 3 گنا ڈیٹا
+  const loopLegends = [...originalLegends, ...originalLegends, ...originalLegends];
+
+  const originalBooks = [
+    {t:"سکون کی تلاش", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016596/sakoon.ki.talash_nmlugh.png"},
+    {t:"بوئے بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768063213/Booy-e-Bahisht_iv282m.png"},
+    {t:"روح کی معراج", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768062537/front_page_jce6fj.png"},
+    {t:"کنجی بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768074750/Kunji-e-Bahisht_book_Dua_ukkrrm.png"},
+    {t:"سیاحت ایران", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016582/Siahat-e-Iran.book_orgj2d.png"},
+    {t:"خراسان رضوی", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016591/Book_Khorasan-e-Razavi_b9nqdb.bmp"},
+  ];
+  // 3 گنا ڈیٹا
+  const loopBooks = [...originalBooks, ...originalBooks, ...originalBooks];
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImg((prev) => (prev + 1) % headerImages.length);
@@ -38,27 +63,6 @@ export default function HomePage() {
     return () => { clearInterval(timer); window.removeEventListener('scroll', handleScroll); };
   }, []);
 
-  // --- ڈیٹا (سلائیڈرز کے لیے 3 بار کاپی کیا تاکہ خالی جگہ نہ آئے) ---
-  const originalLegends = [
-    {n:"Hafiz Abdulghfar Roparhi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.jpg"},
-    {n:"Mian Manzoor Ahmed Watoo", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.jpg"},
-    {n:"Pir Ghullam Rasool Awesi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.jpg"},
-    {n:"Pir Usman Shah Noori", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.jpg"},
-    {n:"Pir Maoom Hussain Naqvi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.jpg"},
-    {n:"Dr. Muhammad Sadaqat Ali", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525503/7.Dr._Muhammad_Sadaqat_Ali_Afridi_k6w0nh.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525503/7.Dr._Muhammad_Sadaqat_Ali_Afridi_k6w0nh.jpg"},
-  ];
-  const loopLegends = [...originalLegends, ...originalLegends, ...originalLegends];
-
-  const originalBooks = [
-    {t:"سکون کی تلاش", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016596/sakoon.ki.talash_nmlugh.png"},
-    {t:"بوئے بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768063213/Booy-e-Bahisht_iv282m.png"},
-    {t:"روح کی معراج", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768062537/front_page_jce6fj.png"},
-    {t:"کنجی بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768074750/Kunji-e-Bahisht_book_Dua_ukkrrm.png"},
-    {t:"سیاحت ایران", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016582/Siahat-e-Iran.book_orgj2d.png"},
-    {t:"خراسان رضوی", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016591/Book_Khorasan-e-Razavi_b9nqdb.bmp"},
-  ];
-  const loopBooks = [...originalBooks, ...originalBooks, ...originalBooks];
-
   return (
     <div className="main-wrapper">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -68,7 +72,7 @@ export default function HomePage() {
          <p className="ayat-text arabic-ayat">مَا شَآءَ اللّٰهُۙ - لَا قُوَّةَ اِلَّا بِاللّٰهِۚ</p>
       </div>
 
-      {/* 2. ہیڈر امیج (سائز موبائل پر 220px فکس) */}
+      {/* 2. ہیڈر امیج (سائز کنٹرولڈ) */}
       <div className="header-wrapper">
         {headerImages.map((img, index) => (
           <img 
@@ -112,22 +116,31 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* 4. ٹائٹل (بیلنس گیپ کے ساتھ) */}
+      {/* 4. ٹائٹل (موبائل پر گیپ کے ساتھ) */}
       <div className="main-title-area">
         <h1 className="main-name">Haji Shabbir Ahmed Shigri</h1>
         <p className="designation">Senior Journalist | Cultural Expert | Founder Noor-ul-Quran</p>
       </div>
 
-      {/* 5. اردو ٹکر (بائیں سے دائیں - سلو) */}
+      {/* 5. اردو ٹکر (مکمل بھرا ہوا، سلو، نظر آئے گا) */}
       <div className="news-ticker-container">
-        <div className="ticker-text-wrapper">
-          <div className="ticker-text">
-             {tickerText} &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; {tickerText}
+        <div className="ticker-track">
+          {/* یہ لائن مسلسل چلتی رہے گی */}
+          <div className="ticker-content">
+             {tickerContent.map((text, index) => (
+                <span key={index} style={{marginRight: '50px'}}>★ {text}</span>
+             ))}
+          </div>
+          {/* یہ دوسری کاپی ہے جو فوراً پیچھے آئے گی تاکہ گیپ نہ ہو */}
+          <div className="ticker-content">
+             {tickerContent.map((text, index) => (
+                <span key={index+'dup'} style={{marginRight: '50px'}}>★ {text}</span>
+             ))}
           </div>
         </div>
       </div>
 
-      {/* 6. ویلکم (بسم اللہ کے ساتھ) */}
+      {/* 6. ویلکم (بسم اللہ موجود) */}
       <div className="welcome-section">
         <div className="welcome-card">
           <div className="bismillah">﷽</div>
@@ -167,7 +180,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 9. اعزازات */}
+      {/* 9. اعزازات (2 لائنیں موبائل پر) */}
       <div className="container" style={{marginBottom: '20px'}}>
         <h2 className="section-title">Distinguished Honors</h2>
         <div className="honors-grid">
@@ -199,7 +212,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 11. لیجنڈز (سائز کنٹرولڈ اور فل) */}
+      {/* 11. لیجنڈز (پہلے سے بھرا ہوا) */}
       <div className="container">
         <h2 className="section-title">Legends About Shigri</h2>
         <div className="slider-area">
@@ -214,7 +227,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 12. کتب (سائز کنٹرولڈ اور فل) */}
+      {/* 12. کتب (پہلے سے بھرا ہوا) */}
       <div className="container">
         <h2 className="section-title">Featured Books</h2>
         <div className="slider-area">
@@ -247,7 +260,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 14. فوٹر (فکسڈ) */}
+      {/* 14. فوٹر (وائٹ لنکس، سوشل آئیکن پورے) */}
       <footer>
         <div className="footer-grid">
           <div className="footer-col">
@@ -272,7 +285,6 @@ export default function HomePage() {
               <a href="https://x.com/shigri41215" target="_blank" className="f-icon-btn"><i className="fab fa-twitter"></i></a>
               <a href="https://instagram.com/shabbirahmedshigri" target="_blank" className="f-icon-btn"><i className="fab fa-instagram"></i></a>
               <a href="https://tiktok.com/@noorproductions786" target="_blank" className="f-icon-btn"><i className="fab fa-tiktok"></i></a>
-              <a href="https://t.me/Shabbirshigri" target="_blank" className="f-icon-btn"><i className="fab fa-telegram"></i></a>
               <a href="https://wa.me/923334491715" target="_blank" className="f-icon-btn"><i className="fab fa-whatsapp"></i></a>
             </div>
           </div>
@@ -302,8 +314,8 @@ export default function HomePage() {
         .ayat-text { color: #ffd700; font-size: 0.75rem; margin: 0; letter-spacing: 1px; }
 
         @media (min-width: 769px) { .header-wrapper { height: 400px; } .ayat-text { font-size: 1rem; } }
-        /* موبائل پر ہیڈر سائز فکس (چھوٹا) */
-        @media (max-width: 768px) { .header-wrapper { height: 180px; } }
+        /* موبائل پر ہیڈر سائز کنٹرولڈ */
+        @media (max-width: 768px) { .header-wrapper { height: 200px; } }
 
         /* NAVBAR */
         .navbar { background-color: var(--primary-color); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--accent-color); width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; } 
@@ -319,16 +331,21 @@ export default function HomePage() {
 
         @media (max-width: 992px) { .nav-list { display: none; } .menu-toggle { display: block; } }
 
-        /* TITLE & TICKER */
+        /* TITLE & TICKER (FIXED) */
         .main-title-area { text-align: center; padding: 10px; background: var(--primary-color); color: white; border-bottom: 3px solid var(--accent-color); }
         .main-name { color: var(--gold-text); margin: 0; font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700; text-transform: uppercase; }
-        .designation { margin: 10px 0 0; font-size: 0.9rem; color: #ddd; } /* Gap Added */
+        .designation { margin: 10px 0 0; font-size: 0.9rem; color: #ddd; } /* Gap Fixed */
         
-        /* ٹکر: بائیں سے دائیں (Left to Right) - سلو */
-        .news-ticker-container { background: var(--gold-gradient); height: 35px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
-        .ticker-text { display: inline-block; animation: scrollTicker 90s linear infinite; font-weight: bold; color: black; font-size: 1rem; padding-right: 100%; font-family: 'Noto Nastaliq Urdu', serif; }
-        /* Left to Right Movement */
-        @keyframes scrollTicker { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .news-ticker-container { background: var(--gold-gradient); height: 40px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+        .ticker-track { display: flex; animation: scrollTicker 200s linear infinite; } /* انتہائی سلو */
+        .ticker-content { display: flex; align-items: center; white-space: nowrap; }
+        .ticker-text { font-weight: bold; color: black; font-size: 1.1rem; font-family: 'Noto Nastaliq Urdu', serif; padding: 0 50px; }
+        
+        /* بائیں سے دائیں (Left to Right) */
+        @keyframes scrollTicker { 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(0%); } 
+        }
 
         /* CONTENT */
         .welcome-section { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
@@ -363,17 +380,17 @@ export default function HomePage() {
             .awards-grid, .journey-grid { grid-template-columns: 1fr 1fr; } 
             .award-item { flex-direction: column; text-align: center; font-size: 0.75rem; }
             .main-name { font-size: 1.3rem; line-height: 1.2; margin-top: 5px; white-space: normal; } 
-            .designation { margin-top: 5px; font-size: 0.75rem; } /* Gap on Mobile */
+            .designation { margin-top: 5px; font-size: 0.75rem; } 
         }
 
-        /* SLIDERS (INFINITE LOOP & MOBILE VISIBILITY FIXED) */
-        .slider-area { overflow: hidden; padding: 10px 0; margin: 0 15px; position: relative; display: flex; }
-        .slide-track, .book-track { display: flex; gap: 15px; width: max-content; animation: scrollSlider 50s linear infinite; }
+        /* SLIDERS (INFINITE LOOP & PRE-FILLED) */
+        .slider-area { overflow: hidden; padding: 10px 0; margin: 0 15px; position: relative; }
+        .slide-track, .book-track { display: flex; gap: 15px; width: max-content; animation: scrollSlider 100s linear infinite; }
         .slide-card { width: 180px; background: white; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; flex-shrink: 0; }
         .book-mini { width: 120px; text-align: center; text-decoration: none; color: black; background: white; padding: 5px; border: 1px solid #ddd; border-radius: 5px; flex-shrink: 0; }
         .book-mini img { width: 100%; height: 140px; object-fit: contain; }
         
-        /* اینیمیشن بائیں سے دائیں (Right to Left Scrolling) */
+        /* دائیں سے بائیں (Right to Left Scrolling) */
         @keyframes scrollSlider { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* BUTTONS & FOOTER */
@@ -383,8 +400,9 @@ export default function HomePage() {
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; text-align: right; direction: rtl; }
         .f-col h3 { color: var(--gold-text); border-bottom: 1px solid var(--gold-text); font-size: 1rem; display: inline-block; padding-bottom: 5px; }
         .f-col ul { list-style: none; padding: 0; }
-        .f-col a { color: white !important; text-decoration: none; font-size: 0.9rem; } /* سفید لنکس */
-        .f-col li::after { content: "•"; float: right; margin-left: 5px; color: var(--accent-color); } /* دائیں طرف ڈاٹس */
+        /* وائٹ لنکس اور ڈاٹس دائیں طرف */
+        .f-col a { color: white !important; text-decoration: none; font-size: 0.9rem; } 
+        .f-col li::after { content: "•"; float: right; margin-left: 5px; color: var(--accent-color); } 
         
         .footer-socials { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; flex-wrap: wrap; }
         .f-icon-btn { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; }
