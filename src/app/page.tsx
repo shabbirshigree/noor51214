@@ -1,28 +1,40 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 
 export default function HomePage() {
   const [currentImg, setCurrentImg] = useState(0);
   const [videoModal, setVideoModal] = useState<string | null>(null);
   const [showScroll, setShowScroll] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // موبائل مینیو کے ڈراپ ڈاؤنز کو کنٹرول کرنے کے لیے سٹیٹ
+  const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
 
-  // --- ہیڈر تصاویر (پرانے پیج والی) ---
+  const toggleSubMenu = (id: string) => {
+    if (activeSubMenu === id) {
+      setActiveSubMenu(null);
+    } else {
+      setActiveSubMenu(id);
+    }
+  };
+
+  // --- ہیڈر امیجز (وہی پرانی فائل والی) ---
   const headerImages = [
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/2_sn9tyl.png",
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/4_xaylj9.png",
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/1_shgdib.png",
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/3_fm3ja9.png",
     "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104581/5_s7hgrb.png",
-    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104582/6_oqageq.png",
+    "https://res.cloudinary.com/dtqrziupt/image/upload/v1768104582/6_oqageq.png"
   ];
 
-  // --- سلائیڈر ٹائمر ---
+  // --- آٹو سلائیڈر اور سکرول ---
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImg((prev) => (prev + 1) % headerImages.length);
-    }, 4000);
-    
+    }, 5000); 
+
     const handleScroll = () => {
       if (window.scrollY > 300) setShowScroll(true); else setShowScroll(false);
     };
@@ -32,359 +44,555 @@ export default function HomePage() {
 
   return (
     <div className="main-wrapper">
-      
-      {/* 1. روحانی ہیڈر */}
-      <div className="spiritual-overlay">
-         <p className="ayat-text">مَا شَآءَ اللّٰهُۙ - لَا قُوَّةَ اِلَّا بِاللّٰهِۚ</p>
-      </div>
+      {/* فونٹ اوسم (Icons) */}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-      {/* 2. مین ہیڈر امیج */}
+      {/* --- سکرول بٹن --- */}
+      {showScroll && (
+        <button id="scrollToTopBtn" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+          <i className="fa fa-arrow-up"></i>
+        </button>
+      )}
+
+      {/* --- ہیڈر --- */}
       <div className="header-wrapper">
+        <div className="spiritual-overlay">
+          <p className="ayat-text arabic-ayat">مَا شَآءَ اللّٰهُۙ - لَا قُوَّةَ اِلَّا بِاللّٰهِۚ</p>
+        </div>
         {headerImages.map((img, index) => (
           <img 
-            key={index} src={img} alt="Header" 
-            className={`header-img ${index === currentImg ? 'active' : ''}`}
+            key={index} 
+            src={img} 
+            alt="Header" 
+            className={`header-bg ${index === currentImg ? 'active' : ''}`}
           />
         ))}
       </div>
 
-      {/* 3. نیویگیشن بار (پرانے پیج جیسا) */}
+      {/* --- نیویگیشن بار (موبائل + ڈیسک ٹاپ) --- */}
       <nav className="navbar">
-        <div className="menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>☰</div>
-        <ul className={`nav-list ${mobileMenuOpen ? 'show-mobile' : ''}`}>
-           <li><a href="/" className="nav-link special-gold">Home</a></li>
-           <li><a href="/project" className="nav-link">Noor-ul-Quran</a></li>
-           <li><a href="/about" className="nav-link">About Me</a></li>
-           <li><a href="/channels" className="nav-link">Channels</a></li>
-           <li><a href="/gallery" className="nav-link">Gallery</a></li>
-           <li><a href="/library" className="nav-link">Library</a></li>
-           <li><a href="/articles" className="nav-link">Articles</a></li>
-           <li><a href="/services" className="nav-link">Services</a></li>
-           <li><a href="/contact" className="nav-link">Contact</a></li>
+        <div className="menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <i className="fa fa-bars"></i>
+        </div>
+        
+        {/* ڈیسک ٹاپ مینیو */}
+        <ul className="nav-list">
+          <li className="nav-item"><a href="/" className="nav-link special-link" style={{color:'var(--gold-text)'}}>Home</a></li>
+          <li className="nav-item">
+            <a href="#" className="nav-link"><i className="fa fa-globe"></i>&nbsp;Language</a>
+            <div className="dropdown-menu">
+              <a href="#">اردو (Urdu)</a>
+              <a href="#">فارسی (Persian)</a>
+              <a href="#">English</a>
+            </div>
+          </li>
+          <li className="nav-item"><a href="/project" className="nav-link">Noor-ul-Quran <i className="fa fa-caret-down"></i></a>
+            <div className="dropdown-menu">
+              <a href="/project">📖 Introduction</a>
+              <a href="/project">🎥 Visual Quran</a>
+            </div>
+          </li>
+          <li className="nav-item"><a href="/about" className="nav-link">About Me</a></li>
+          <li className="nav-item"><a href="/channels" className="nav-link">Channels</a></li>
+          <li className="nav-item"><a href="/gallery" className="nav-link">Gallery</a></li>
+          <li className="nav-item"><a href="/library" className="nav-link">Library</a></li>
+          <li className="nav-item"><a href="/articles" className="nav-link">Articles</a></li>
+          <li className="nav-item"><a href="/services" className="nav-link">Services</a></li>
+          <li className="nav-item"><a href="/contact" className="nav-link">Contact</a></li>
         </ul>
+
+        {/* موبائل مینیو */}
+        <div className={`mobile-menu-container ${mobileMenuOpen ? 'active' : ''}`}>
+          <a href="/" className="m-link">Home</a>
+          
+          <div className="m-link" onClick={() => toggleSubMenu('mob-quran')}>Noor-ul-Quran <i className="fa fa-chevron-down" style={{float:'right'}}></i></div>
+          <div className={`m-sub-menu ${activeSubMenu === 'mob-quran' ? 'show' : ''}`}>
+             <a href="/project" className="m-sub-link">📖 Project</a>
+          </div>
+
+          <div className="m-link" onClick={() => toggleSubMenu('mob-about')}>About Me <i className="fa fa-chevron-down" style={{float:'right'}}></i></div>
+          <div className={`m-sub-menu ${activeSubMenu === 'mob-about' ? 'show' : ''}`}>
+             <a href="/about" className="m-sub-link">📖 My Story</a>
+          </div>
+
+          <a href="/channels" className="m-link">Channels</a>
+          <a href="/gallery" className="m-link">Gallery</a>
+          <a href="/library" className="m-link">Library</a>
+          <a href="/articles" className="m-link">Articles</a>
+          <a href="/services" className="m-link">Services</a>
+          <a href="/contact" className="m-link">Contact</a>
+        </div>
       </nav>
 
-      {/* 4. ٹائٹل سٹرپ */}
+      {/* --- ٹائٹل اور ٹکر --- */}
       <div className="main-title-area">
-         <h1 className="main-name">Haji Shabbir Ahmed Shigri</h1>
-         <p className="designation">Senior Journalist | Cultural Expert | Founder Noor-ul-Quran</p>
+        <h1>Haji Shabbir Ahmed Shigri</h1>
+        <p>Senior Journalist | Cultural Expert | Founder Noor-ul-Quran Project</p>
       </div>
 
-      {/* 5. نیوز ٹکر */}
       <div className="news-ticker-container">
-         <div className="ticker-text-wrapper">
-            <div className="ticker-text">
-               ★ "ONE MAN ARMY" of Media Industry ★ FIRST TIME IN THE WORLD: Visual Quran Project ★ Representative of Astan Quds Razavi ★ Founder of Noor Productions ★
-            </div>
-         </div>
+        <div className="ticker-icons-wrapper">
+          <a href="#" className="ticker-social-icon"><i className="fab fa-tiktok"></i></a>
+          <a href="#" className="ticker-social-icon"><i className="fab fa-twitter"></i></a>
+          <a href="#" className="ticker-social-icon"><i className="fab fa-facebook-f"></i></a>
+          <a href="#" className="ticker-social-icon"><i className="fab fa-youtube"></i></a>
+          <a href="#" className="ticker-social-icon"><i className="fab fa-whatsapp"></i></a>
+        </div>
+        <div className="ticker-text-wrapper">
+          <div className="ticker-text">
+             ★ "ONE MAN ARMY" of Media Industry ★ FIRST TIME IN THE WORLD: Visual Quran Project ★ Representative of Astan Quds Razavi ★ Founder of Noor Productions ★
+          </div>
+        </div>
       </div>
 
-      {/* 6. ویلکم کارڈ */}
+      {/* --- ویلکم --- */}
+      <div className="welcome-section">
+        <div className="welcome-card">
+          <p className="welcome-text">
+            السلام علیکم! میں آپ کو اپنے آفیشل ویب سائیٹ پر خوش آمدید کہتا ہوں۔ یہ ویب سائٹ میری 45 سالہ صحافتی، ثقافتی، سماجی اور دینی خدمات کا ایک عاجزانہ عکس ہے۔ یہاں آپ کو میرے 'نور القرآن ویژول' جیسے عظیم پروجیکٹ سے لے کر میرے صحافتی کیریئر، فرھنگی خدمات، سوشل مصروفیات، ادبی کتب، میڈیا اور دستاویزی فلموں کا آن لائن مجموعہ ملے گا۔ میرا عزم دین خدا اور مخلوق خدا کی خدمت، محبت، امن، اور آشتی کا فروغ ہے۔ میرا مقصد قلم، کیمرے اور سکرین کی طاقت کو دینِ اسلام اور انسانیت کی بھلائی کے لیے استعمال کرنا ہے۔
+          </p>
+          <span className="founder-name">حاجی شبیر احمد شگری</span>
+        </div>
+      </div>
+
+      {/* --- کوئیک لنکس --- */}
+      <div className="founder-section" style={{marginTop:0}}>
+        <h2 className="section-heading-founder"><span>Quick Navigation</span></h2>
+        <div className="founder-grid">
+          <a href="/project" className="founder-item">
+            <div className="f-icon"><i className="fa fa-book-open"></i></div>
+            <div className="f-title">نور القرآن پراجیکٹ</div>
+            <div className="f-desc">Visual Quran</div>
+          </a>
+          <a href="/channels" className="founder-item">
+            <div className="f-icon"><i className="fab fa-youtube"></i></div>
+            <div className="f-title">نور پروڈکشنز</div>
+            <div className="f-desc">Media Network</div>
+          </a>
+          <a href="/gallery" className="founder-item"><div className="f-icon"><i className="fa fa-handshake"></i></div><div class="f-title">پاک ایران دوستی</div><div class="f-desc">Friendship</div></a>
+          <a href="https://pakiiranassociation.wixsite.com/pira" target="_blank" className="founder-item">
+            <div className="f-icon"><i className="fa fa-laptop-code"></i></div>
+            <div className="f-title">ویب سائٹ</div>
+            <div className="f-desc">Web Portal</div>
+          </a>
+          <a href="/gallery" className="founder-item"><div className="f-icon"><i className="fa fa-globe"></i></div><div class="f-title">ٹریڈ اینڈ کلچر</div><div class="f-desc">Federation</div></a>
+          <a href="/gallery" className="founder-item"><div className="f-icon"><i className="fa fa-bus"></i></div><div class="f-title">سیاحت</div><div class="f-desc">Tourism</div></a>
+          <a href="#" className="founder-item"><div className="f-icon"><i className="fa fa-child"></i></div><div class="f-title">طفلانِ نور</div><div class="f-desc">Kids Channel</div></a>
+        </div>
+      </div>
+
+      {/* --- مشن کارڈ --- */}
       <div className="container">
-         <div className="welcome-card">
-            <div className="bismillah">﷽</div>
-            <p className="welcome-text">
-               السلام علیکم! میں آپ کو اپنے آفیشل ویب سائیٹ پر خوش آمدید کہتا ہوں۔ یہ ویب سائٹ میری 45 سالہ صحافتی، ثقافتی، سماجی اور دینی خدمات کا ایک عاجزانہ عکس ہے۔ میرا عزم دین خدا اور مخلوق خدا کی خدمت، محبت، امن، اور آشتی کا فروغ ہے۔ امید ہے آپ ان کاوشوں کے بارے میں اپنی تجاویز سے حوصلہ افزائی فرمائیں گے۔
+        <div className="mission-card">
+          <div style={{flexGrow: 1, textAlign: 'center'}}>
+            <span style={{background: 'var(--primary-color)', color: '#fff', padding: '2px 8px', borderRadius: '5px', fontSize: '0.85em', fontWeight:600}}>WORLD'S FIRST</span>
+            <h3 style={{marginTop: '8px', color: 'var(--primary-color)'}}>📖 Noor-ul-Quran Project</h3>
+            <p>A historic milestone: The world's first verse-by-verse Visual Quran translation.</p>
+            <p className="urdu-line urdu-text" style={{color: '#b8860b', fontWeight: 700}}>
+              نورالقرآن ویژول کا مقصد قرآن مجید کو سن کر اور دیکھ کر قرآنی آیات کو سمجھنا ہے۔ ان شاء اللہ
             </p>
-            <span className="founder-name">حاجی شبیر احمد شگری</span>
-         </div>
+            <a href="/project" className="card-btn">Visit Project | <span className="urdu-text">پروجیکٹ دیکھیں</span></a>
+          </div>
+          <img src="https://res.cloudinary.com/dtqrziupt/image/upload/v1766843381/quran_logo.jpg_ie9iqz.png" style={{width: '140px', borderRadius: '8px'}} />
+        </div>
       </div>
 
-      {/* 7. کوئیک نیویگیشن (پرانے لنکس) */}
-      <div className="container">
-         <div className="founder-grid">
-            <a href="/project" className="founder-item">
-               <div className="f-icon">📖</div>
-               <div className="f-title">نور القرآن</div>
-            </a>
-            <a href="/channels" className="founder-item">
-               <div className="f-icon">🎥</div>
-               <div className="f-title">نور پروڈکشنز</div>
-            </a>
-            <a href="/gallery?cat=friendship" className="founder-item">
-               <div className="f-icon">🤝</div>
-               <div className="f-title">پاک ایران دوستی</div>
-            </a>
-            <a href="https://pakiiranassociation.wixsite.com/pira" target="_blank" className="founder-item">
-               <div className="f-icon">💻</div>
-               <div className="f-title">ویب سائٹ</div>
-            </a>
-            <a href="/gallery?cat=diplomacy" className="founder-item">
-               <div className="f-icon">🌍</div>
-               <div className="f-title">ٹریڈ اینڈ کلچر</div>
-            </a>
-            <a href="/gallery?cat=diplomacy" className="founder-item">
-               <div className="f-icon">🚌</div>
-               <div className="f-title">سیاحت</div>
-            </a>
-            <a href="https://www.youtube.com/@TiflaneNoor" target="_blank" className="founder-item">
-               <div className="f-icon">👶</div>
-               <div className="f-title">طفلانِ نور</div>
-            </a>
-            <a href="/contact" className="founder-item">
-               <div className="f-icon">📞</div>
-               <div className="f-title">رابطہ</div>
-            </a>
-         </div>
-      </div>
-
-      {/* 8. نور القرآن ہائی لائٹ */}
-      <div className="container">
-         <div className="mission-card">
-            <div className="mission-text">
-               <span className="badge">WORLD'S FIRST</span>
-               <h3>📖 Noor-ul-Quran Project</h3>
-               <p className="urdu-line">نورالقرآن ویژول کا مقصد قرآن مجید کو سن کر اور دیکھ کر قرآنی آیات کو سمجھنا ہے۔ ان شاء اللہ</p>
-               <a href="/project" className="card-btn">پروجیکٹ دیکھیں</a>
+      {/* --- اعزازات --- */}
+      <div id="honors" className="container" style={{marginBottom: '20px'}}>
+        <h2 className="section-title">Distinguished Honors</h2>
+        <div className="honors-grid">
+          <div className="honor-gold-card" onClick={() => window.location.href='/gallery'}>
+            <h3>🟢 Khadim-e-Imam Reza (A.S)</h3>
+            <p>Honorary Servant at<br/><strong>Holy Shrine of Imam Reza (A.S)</strong><br/>Mashhad, Iran</p>
+          </div>
+          <div className="honor-gold-card" onClick={() => window.location.href='/gallery'}>
+            <h3>🔴 Khadim-e-Ghazi Abbas (A.S)</h3>
+            <p>Honorary Servant at<br/><strong>Holy Shrine of Ghazi Abbas (A.S)</strong><br/>Karbala, Iraq</p>
+          </div>
+        </div>
+        
+        <div style={{marginTop: '15px'}}>
+          <div className="awards-grid">
+            <div className="award-grid-item">
+              <i className="fa fa-medal"></i>
+              <span><strong>Gold Medalist:</strong> Cultural & Literary Services</span>
             </div>
-            <img src="https://res.cloudinary.com/dtqrziupt/image/upload/v1766843381/quran_logo.jpg_ie9iqz.png" className="quran-img" />
-         </div>
+            <div className="award-grid-item">
+              <i className="fa fa-handshake"></i>
+              <span><strong>Founder President:</strong> Pak-Iran Friendship</span>
+            </div>
+            <div className="award-grid-item">
+              <i className="fa fa-trophy"></i>
+              <span><strong>Sada-e-Ghazi Award:</strong> Services at Shrine</span>
+            </div>
+            <div className="award-grid-item">
+              <i className="fa fa-award"></i>
+              <span><strong>Media Excellence Award:</strong> 2025 (Lahore)</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* 9. اعزازات (موبائل پر 2 برابر لائنیں) */}
+      {/* --- پیشہ ورانہ سفر --- */}
+      <div id="journey" style={{background: '#fff', paddingBottom: '20px', paddingTop: '10px'}}>
+        <div className="container">
+          <h2 className="section-title">Professional Journey<br/><span className="urdu-text" style={{fontSize:'0.9em'}}>پیشہ ورانہ سفر</span></h2>
+          <p style={{textAlign: 'center', marginBottom: '15px', color: '#777', fontSize: '1.1em'}}>A legacy spanning over 4 decades.</p>
+          
+          <div className="journey-grid">
+            <div className="journey-card" onClick={() => window.location.href='/gallery'}>
+              <div className="gold-header"><i className="fa fa-microphone"></i><h3>Radio Pakistan</h3></div>
+              <div className="card-body"><p>Start of Career at Radio Pakistan Skardu. The "Golden Voice" of GB.</p><span className="card-tag">View Gallery ↗</span></div>
+            </div>
+            <div className="journey-card" onClick={() => window.location.href='/articles'}>
+              <div className="gold-header"><i className="fa fa-newspaper"></i><h3>Journalism (45 Years)</h3></div>
+              <div className="card-body"><p>Deputy Editor: Daily Havi, Akath & Prachar. 300+ Articles published.</p><span className="card-tag">View Articles ↗</span></div>
+            </div>
+            <div className="journey-card" onClick={() => window.location.href='/channels'}>
+              <div className="gold-header"><i className="fa fa-tv"></i><h3>TV Talk Shows</h3></div>
+              <div className="card-body"><p>Host & Guest on numerous National & International TV Talk Shows.</p><span className="card-tag">Watch Shows ↗</span></div>
+            </div>
+            <div className="journey-card" onClick={() => window.location.href='/gallery'}>
+              <div className="gold-header"><i className="fa fa-handshake"></i><h3>Cultural Diplomacy</h3></div>
+              <div className="card-body"><p>Ex-PRO & In-charge of Other Departments at Khana Farhang Iran.</p><span className="card-tag">View Photos ↗</span></div>
+            </div>
+            <div className="journey-card">
+              <div className="gold-header"><i className="fa fa-users"></i><h3>Leadership</h3></div>
+              <div className="card-body"><p>Founding President: Pak-Iran Friendship. Rep: Astan Quds Razavi.</p><span className="card-tag">View Events ↗</span></div>
+            </div>
+            <div className="journey-card">
+              <div className="gold-header"><i className="fa fa-video"></i><h3>Noor Productions</h3></div>
+              <div className="card-body"><p>Founder of Noor-ul-Quran Visual Project. 2000+ Documentaries.</p><span className="card-tag">Watch Videos ↗</span></div>
+            </div>
+            <div className="journey-card">
+              <div className="gold-header"><i className="fa fa-plane"></i><h3>Tourism Pioneer</h3></div>
+              <div className="card-body"><p>Launched First Cultural Tourism to Iran. Author of "Siahat-e-Iran".</p><span className="card-tag">View Books ↗</span></div>
+            </div>
+            <div className="journey-card">
+              <div className="gold-header"><i className="fa fa-book"></i><h3>Books & Author</h3></div>
+              <div className="card-body"><p>Author of 9+ books including "Booy-e-Bahisht" and "Khorasan-e-Razavi".</p><span className="card-tag">Visit Library ↗</span></div>
+            </div>
+            <div className="journey-card">
+              <div className="gold-header"><i className="fa fa-images"></i><h3>Photo Gallery</h3></div>
+              <div className="card-body"><p>A visual archive of 45 years of meetings, awards, and visits.</p><span className="card-tag">Open Gallery ↗</span></div>
+            </div>
+            <div className="journey-card">
+              <div className="gold-header"><i className="fa fa-film"></i><h3>Int'l Film Festivals</h3></div>
+              <div className="card-body"><p>Organizer of multiple International Film Festivals & Cultural Programs.</p><span className="card-tag">View Highlights ↗</span></div>
+            </div>
+            <div className="journey-card">
+              <div className="gold-header"><i className="fa fa-globe"></i><h3>Int'l Delegations</h3></div>
+              <div className="card-body"><p>Hosted and led numerous International Delegations (Wafood).</p><span className="card-tag">View Meetings ↗</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* --- لیجنڈز (سلائیڈر) --- */}
       <div className="container">
-         <h2 className="section-title">Distinguished Honors</h2>
-         <div className="honors-grid">
-            <div className="honor-card-gold" onClick={() => window.location.href='/gallery?cat=reza'}>
-               <h3>🟢 Khadim-e-Imam Reza</h3>
-               <p>Mashhad, Iran</p>
-            </div>
-            <div className="honor-card-gold" onClick={() => window.location.href='/gallery?cat=abbas'}>
-               <h3>🔴 Khadim-e-Ghazi Abbas</h3>
-               <p>Karbala, Iraq</p>
-            </div>
-         </div>
-         
-         <div className="awards-grid">
-            <div className="award-item"><div className="aw-icon">🥇</div><div className="aw-text"><strong>Gold Medalist:</strong><br/>Cultural Services</div></div>
-            <div className="award-item"><div className="aw-icon">🤝</div><div className="aw-text"><strong>Founder President:</strong><br/>Pak-Iran Friendship</div></div>
-            <div className="award-item"><div className="aw-icon">🕌</div><div className="aw-text"><strong>Sada-e-Ghazi:</strong><br/>Services at Shrine</div></div>
-            <div className="award-item"><div className="aw-icon">🏆</div><div className="aw-text"><strong>Media Excellence:</strong><br/>2025 (Lahore)</div></div>
-         </div>
+        <h2 className="section-title">Legends About Shigri</h2>
+        <div className="slider-area">
+          <div className="slide-track">
+            {[
+              {n:"Hafiz Abdulghfar Roparhi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.jpg", r:"Head Jamia Ahle Hadith"},
+              {n:"Mian Manzoor Ahmed Watoo", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.jpg", r:"Ex-Chief Minister Punjab"},
+              {n:"Pir Ghullam Rasool Awesi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/3.Pir_Ghullam_Rasool_Awesi_dnuxif.jpg", r:"Spiritual Leader"},
+              {n:"Pir Usman Shah Noori", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.jpg", r:"Religious Scholar"},
+              {n:"Pir Maoom Hussain Naqvi", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525593/6.Pir_Maoom_Hussain_Naqvi_nzxz0n.jpg", r:"Senior Scholar"},
+              {n:"Dr. Muhammad Sadaqat Ali", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525503/7.Dr._Muhammad_Sadaqat_Ali_Afridi_k6w0nh.mp4", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525503/7.Dr._Muhammad_Sadaqat_Ali_Afridi_k6w0nh.jpg", r:"Writer & Intellectual"},
+            ].map((l, i) => (
+              <div key={i} className="slide-card" onClick={() => setVideoModal(l.v)}>
+                <div className="video-thumb"><img src={l.i} /><div className="play-icon"><i className="fa fa-play"></i></div></div>
+                <div className="slide-info"><h4>{l.n}</h4><p>{l.r}</p></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* 10. پیشہ ورانہ سفر (موبائل پر 2 کالم) */}
-      <div className="container bg-white-sec">
-         <h2 className="section-title">پیشہ ورانہ سفر (Journey)</h2>
-         <div className="journey-grid">
-            <a href="/gallery" className="j-card"><div className="j-head">🎙️ Radio Pakistan</div><p>Golden Voice of GB</p></a>
-            <a href="/articles" className="j-card"><div className="j-head">📰 Journalism</div><p>45 Years Experience</p></a>
-            <a href="/channels" className="j-card"><div className="j-head">📺 TV Talk Shows</div><p>Host & Guest</p></a>
-            <a href="/gallery" className="j-card"><div className="j-head">🤝 Diplomacy</div><p>Ex-PRO Khana Farhang</p></a>
-            <a href="/project" className="j-card"><div className="j-head">🎥 Noor Productions</div><p>Founder & CEO</p></a>
-            <a href="/books" className="j-card"><div className="j-head">🚌 Tourism</div><p>Pioneer of Ziarat</p></a>
-            <a href="/library" className="j-card"><div className="j-head">📚 Author</div><p>9+ Books Written</p></a>
-            <a href="/gallery" className="j-card"><div className="j-head">📸 Photo Gallery</div><p>Visual Archive</p></a>
-         </div>
+      {/* --- کتب (سلائیڈر) --- */}
+      <div className="container" style={{marginBottom: '30px'}}>
+        <h2 className="section-title">Featured Books</h2>
+        <div className="slider-area">
+          <div className="book-track">
+            {[
+              {t:"سکون کی تلاش", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016596/sakoon.ki.talash_nmlugh.png"},
+              {t:"بوئے بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768063213/Booy-e-Bahisht_iv282m.png"},
+              {t:"روح کی معراج", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768062537/front_page_jce6fj.png"},
+              {t:"کنجی بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768074750/Kunji-e-Bahisht_book_Dua_ukkrrm.png"},
+              {t:"سیاحت ایران", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016582/Siahat-e-Iran.book_orgj2d.png"},
+              {t:"خراسان رضوی", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016591/Book_Khorasan-e-Razavi_b9nqdb.bmp"},
+              {t:"مجلہ فرھنگستان", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016581/Majala-Farhangistan_xdsc1a.png"},
+            ].map((b, i) => (
+              <a key={i} href="/library" className="book-mini">
+                <img src={b.i} alt={b.t} />
+                <p>{b.t}</p>
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* 11. لیجنڈز (سلائیڈر) */}
-      <div className="container">
-         <h2 className="section-title">Legends About Shigri</h2>
-         <div className="slider-area">
-            <div className="slide-track">
-               {[
-                 {n:"علامہ اقبالؒ", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.mp4", i:"https://upload.wikimedia.org/wikipedia/commons/c/c2/Allama_Iqbal.jpg"},
-                 {n:"قائداعظمؒ", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525505/1.Mian_Manzoor_Ahmed_Watoo_evn2nm.mp4", i:"https://upload.wikimedia.org/wikipedia/commons/6/6d/Jinnah_1945.jpg"},
-                 {n:"امام خمینیؒ", v:"", i:"https://upload.wikimedia.org/wikipedia/commons/2/22/Ruhollah_Khomeini.jpg"},
-                 {n:"آیت اللہ خامنہ ای", v:"", i:"https://upload.wikimedia.org/wikipedia/commons/e/e3/Ali_Khamenei_2017.jpg"},
-                 {n:"پیر عثمان شاہ", v:"", i:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767525557/4.Pir_Usman_Shah_Noori_kz9ieb.jpg"},
-                 {n:"علامہ اقبالؒ", v:"https://res.cloudinary.com/dtqrziupt/video/upload/v1767715324/Abdulghfar_roparhi_m5ifhn.mp4", i:"https://upload.wikimedia.org/wikipedia/commons/c/c2/Allama_Iqbal.jpg"},
-               ].map((l, i) => (
-                  <div key={i} className="slide-card" onClick={() => setVideoModal(l.v)}>
-                     <div className="v-thumb"><img src={l.i} /><div className="play-icon">▶</div></div>
-                     <div className="s-info">{l.n}</div>
-                  </div>
-               ))}
-            </div>
-         </div>
+      <div style={{textAlign: 'center', margin: '30px 0'}}>
+        <a href="/about" className="read-more-btn">
+          <span className="urdu-text">میرے بارے میں مزید جانیں</span>
+        </a>
       </div>
 
-      {/* 12. کتب (سلائیڈر) */}
-      <div className="container">
-         <h2 className="section-title">Featured Books</h2>
-         <div className="slider-area">
-            <div className="book-track">
-               {[
-                 {t:"سکون کی تلاش", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016596/sakoon.ki.talash_nmlugh.png"},
-                 {t:"بوئے بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768063213/Booy-e-Bahisht_iv282m.png"},
-                 {t:"روح کی معراج", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768062537/front_page_jce6fj.png"},
-                 {t:"کنجی بہشت", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768074750/Kunji-e-Bahisht_book_Dua_ukkrrm.png"},
-                 {t:"سیاحت ایران", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016582/Siahat-e-Iran.book_orgj2d.png"},
-                 {t:"سکون کی تلاش", i:"https://res.cloudinary.com/dtqrziupt/image/upload/v1768016596/sakoon.ki.talash_nmlugh.png"},
-               ].map((b, i) => (
-                  <a key={i} href="/library" className="book-mini">
-                     <img src={b.i} alt={b.t} />
-                     <p>{b.t}</p>
-                  </a>
-               ))}
-            </div>
-         </div>
+      {/* --- انٹرنیشنل فیچر --- */}
+      <div className="container" style={{marginBottom: '30px'}}>
+        <h2 className="section-title">International Feature</h2>
+        <div style={{background: '#000', border: '4px solid #ffd700', borderRadius: '12px', overflow: 'hidden', textAlign: 'center'}}>
+          <div style={{padding: '10px', background: 'var(--gold-gradient)', color: '#000', fontWeight: 'bold', fontSize: '1.2em'}}>
+            🎬 Iqbal: The Eastern Wisdom (Press TV)
+          </div>
+          <div style={{padding: '30px', color: '#fff'}}>
+            <p style={{fontSize: '1.2em', fontFamily:'Poppins, sans-serif'}}>Produced by Press TV | Production Manager: <strong>Shabbir Ahmed Shigri</strong></p>
+            <a href="https://www.presstv.ir/Detail/2023/08/04/708339/Iqbal-The-Eastern-Wisdom" target="_blank" className="read-more-btn" style={{border:'none', background:'red', color:'white', width:'60%', margin:'15px auto', display:'block'}}>Watch Documentary</a>
+          </div>
+        </div>
       </div>
 
-      {/* 13. بٹن */}
-      <div style={{textAlign:'center', margin:'30px 0'}}>
-         <a href="/about" className="read-more-btn">میرے بارے میں مزید جانیں</a>
+      {/* --- فیڈ بیک فارم --- */}
+      <div className="feedback-container">
+        <div className="fb-header">
+          <h3 style={{margin: 0, color: '#ffd700', fontSize: '1.3em', fontWeight: 'normal', letterSpacing: '1px'}}>
+            <i className="fa fa-envelope-open-text" style={{marginLeft:'8px'}}></i> رابطہ کریں / اپنی رائے دیں
+          </h3>
+        </div>
+        <div className="fb-body">
+          <form className="royal-form">
+            <input type="text" name="name" placeholder="آپ کا نام..." className="fb-input" required />
+            <input type="email" name="email" placeholder="آپ کی ای میل..." className="fb-input" required />
+            <input type="text" name="message" placeholder="مختصر پیغام لکھیں..." className="fb-input" required />
+            <button type="submit" className="fb-btn">بھیجیں <i className="fa fa-paper-plane"></i></button>
+          </form>
+        </div>
       </div>
 
-      {/* 14. فوٹر (پرانا سٹائل) */}
+      {/* --- فوٹر --- */}
       <footer>
-         <div className="footer-grid">
-            <div className="f-col">
-               <h3>ہمارے بارے میں</h3>
-               <p>نور پروڈکشنز اور حاجی شبیر احمد شگری کا مقصد جدید میڈیا کے ذریعے اسلامی تعلیمات اور ثقافتی ورثے کو محفوظ کرنا ہے۔</p>
+        <div className="footer-grid">
+          <div className="footer-col">
+            <h3>ہمارے بارے میں</h3>
+            <p>نور پروڈکشنز اور حاجی شبیر احمد شگری کا مقصد جدید میڈیا کے ذریعے اسلامی تعلیمات اور ثقافتی ورثے کو محفوظ کرنا ہے۔</p>
+          </div>
+          <div className="footer-col">
+            <h3>کوئیک لنکس</h3>
+            <ul>
+              <li><a href="/">ہوم پیج</a></li>
+              <li><a href="/project">نور القرآن</a></li>
+              <li><a href="/library">لائبریری</a></li>
+              <li><a href="/contact">رابطہ</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h3>سوشل میڈیا</h3>
+            <p>تازہ ترین اپ ڈیٹس کے لیے ہمیں فالو کریں:</p>
+            <div className="footer-socials">
+              <a href="https://www.tiktok.com/@noorproductions786" target="_blank" className="f-icon-btn"><i className="fab fa-tiktok"></i></a>
+              <a href="https://x.com/shigri41215" target="_blank" className="f-icon-btn"><i className="fab fa-twitter"></i></a>
+              <a href="https://www.instagram.com/shabbirahmedshigri" target="_blank" className="f-icon-btn"><i className="fab fa-instagram"></i></a>
+              <a href="https://t.me/Shabbirshigri" target="_blank" className="f-icon-btn"><i className="fab fa-telegram"></i></a>
+              <a href="https://www.facebook.com/share/1C37cizwfD/" target="_blank" className="f-icon-btn"><i className="fab fa-facebook-f"></i></a>
+              <a href="https://youtube.com/@shabbirahmed1103" target="_blank" className="f-icon-btn"><i className="fab fa-youtube"></i></a>
+              <a href="https://wa.me/923334491715" target="_blank" className="f-icon-btn"><i className="fab fa-whatsapp"></i></a>
             </div>
-            <div className="f-col">
-               <h3>کوئیک لنکس</h3>
-               <ul>
-                  <li><a href="/">ہوم پیج</a></li>
-                  <li><a href="/project">نور القرآن</a></li>
-                  <li><a href="/contact">رابطہ</a></li>
-               </ul>
-            </div>
-            <div className="f-col">
-               <h3>سوشل میڈیا</h3>
-               <div className="social-icons">
-                  <a href="https://youtube.com/@shabbirshigri">📺</a>
-                  <a href="https://facebook.com/shabbirshigri">📘</a>
-                  <a href="https://twitter.com/shabbirshigri">🐦</a>
-               </div>
-            </div>
-         </div>
-         <div className="copyright">All Rights Reserved © 2026 - Haji Shabbir Ahmed Shigri</div>
+          </div>
+        </div>
+        <div className="copyright">All Rights Reserved &copy; 2025 - Haji Shabbir Ahmed Shigri</div>
       </footer>
 
-      {/* ویڈیو ماڈل */}
+      {/* --- ویڈیو ماڈل --- */}
       {videoModal && (
         <div className="video-modal" onClick={() => setVideoModal(null)}>
-           <span className="close-modal">×</span>
-           <video src={videoModal} controls autoPlay className="modal-vid" onClick={e => e.stopPropagation()}></video>
+          <span className="close-modal">&times;</span>
+          <video src={videoModal} controls autoPlay className="modal-video" onClick={(e) => e.stopPropagation()}></video>
         </div>
       )}
 
-      {/* فلوٹنگ بٹن */}
-      <a href="https://wa.me/923334491715" target="_blank" className="float-wa"><i className="fab fa-whatsapp"></i>💬</a>
-      {showScroll && <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="float-top">⬆</button>}
+      {/* --- فلوٹنگ بٹن --- */}
+      <a href="https://wa.me/923334491715" target="_blank" className="floating-whatsapp">
+        <i className="fab fa-whatsapp"></i>
+      </a>
 
-      {/* --- CSS STYLES --- */}
+      {/* --- CSS (Exact Copy of Your HTML Style) --- */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Naskh+Arabic:wght@400;700&family=Cinzel:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
         
-        :root { --royal: #0f4c75; --gold: #b8860b; --light-gold: #ffd700; --bg: #f4f7f6; }
-        
-        body { margin: 0; padding: 0; background: var(--bg); font-family: 'Poppins', 'Noto Nastaliq Urdu', serif; overflow-x: hidden; }
-        
-        /* HEADER */
-        .header-wrapper { width: 100%; position: relative; overflow: hidden; border-bottom: 4px solid var(--gold); }
-        .header-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s; }
-        .header-img.active { opacity: 1; }
-        
-        @media (min-width: 769px) { .header-wrapper { height: 400px; } }
-        @media (max-width: 768px) { .header-wrapper { height: 180px; } } /* موبائل ہیڈر سائز فکس */
-
-        .spiritual-overlay { background: var(--royal); color: var(--light-gold); text-align: center; padding: 5px; font-family: 'Noto Naskh Arabic'; font-size: 0.9rem; }
-
-        /* NAVBAR */
-        .navbar { background: var(--royal); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-bottom: 3px solid var(--gold); }
-        .nav-list { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; }
-        .nav-link { color: white; text-decoration: none; padding: 12px 15px; display: block; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
-        .nav-link:hover, .special-gold { background: var(--gold); color: black; }
-        .menu-toggle { display: none; color: white; font-size: 1.5rem; padding: 10px; cursor: pointer; }
-
-        @media (max-width: 768px) {
-           .nav-list { display: none; flex-direction: column; background: var(--royal); }
-           .nav-list.show-mobile { display: flex; }
-           .menu-toggle { display: block; }
-           .nav-link { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        :root {
+            --primary-color: #0f4c75;
+            --dark-blue: #0a2e47;
+            --accent-color: #c8a165;
+            --gold-gradient: linear-gradient(45deg, #b8860b, #ffd700, #b8860b);
+            --header-fade: linear-gradient(45deg, #eee3b5, #fffde7, #eee3b5);
+            --bg-light: #f4f7f6;
+            --white: #ffffff;
+            --gold-text: #ffd700;
+            --urdu-font: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', serif;
+            --arabic-font: 'Noto Naskh Arabic', serif;
+            --simple-gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
         }
 
-        /* TITLE SECTION */
-        .main-title-area { text-align: center; padding: 15px; background: var(--royal); color: white; border-bottom: 3px solid var(--gold); }
-        .main-name { 
-            font-family: 'Cinzel', serif; color: var(--light-gold); margin: 0; font-weight: 700; text-transform: uppercase; 
-            font-size: 2.2rem; 
+        /* --- GLOBAL --- */
+        body { margin: 0; padding: 0; background-color: var(--bg-light); font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+        * { box-sizing: border-box; }
+        .urdu-text, h1, h2, h3, h4, .ticker-text, .welcome-text, .founder-name, .section-title, .book-mini p { font-family: var(--urdu-font) !important; line-height: 1.8; font-weight: normal; }
+        .arabic-ayat { font-family: var(--arabic-font) !important; font-weight: 700; }
+
+        /* --- HEADER --- */
+        .header-wrapper { width: 100%; position: relative; overflow: hidden; background: var(--header-fade); }
+        .header-bg { width: 100%; height: auto; display: block; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s ease-in-out; }
+        .header-bg.active { opacity: 1; position: relative; }
+        .spiritual-overlay { position: absolute; top: 0; left: 0; width: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); padding: 10px 0; text-align: center; z-index: 50; }
+        .ayat-text { color: #ffd700; font-size: 1.2em; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255,215,0,0.5); margin: 0; }
+
+        /* --- NAVBAR --- */
+        .navbar { background-color: var(--primary-color); padding: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 10000; border-bottom: 3px solid var(--accent-color); width: 100%; display: flex; justify-content: center; height: 60px; }
+        .nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: center; align-items: center; width: 100%; height: 100%; }
+        .nav-item { position: relative; margin: 0; height: 100%; display: flex; align-items: center; }
+        .nav-link { display: flex; align-items: center; color: var(--white); text-decoration: none; padding: 0 10px; height: 100%; font-weight: 600; font-size: 0.82rem; text-transform: uppercase; transition: all 0.3s ease; border-right: 1px solid rgba(255,255,255,0.1); white-space: nowrap; cursor: pointer; }
+        .nav-link:hover { background: var(--gold-gradient); color: #000; }
+        .special-link { background: rgba(0,0,0,0.2); color: var(--gold-text); }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; min-width: 240px; border-top: 3px solid var(--accent-color); box-shadow: 0 5px 15px rgba(0,0,0,0.15); z-index: 10001; }
+        .dropdown-menu a { display: block; padding: 10px 15px; color: #333; border-bottom: 1px solid #eee; transition: 0.3s; font-size: 0.95rem; text-decoration: none; }
+        .nav-item:hover .dropdown-menu { display: block; }
+        .menu-toggle { display: none; }
+        .mobile-menu-container { display: none; }
+
+        @media (max-width: 992px) {
+            .navbar { justify-content: space-between; padding: 0 20px; align-items: center; height: 70px; }
+            .nav-list { display: none; }
+            .menu-toggle { display: block; font-size: 2.2em; color: #ffffff !important; cursor: pointer; padding: 5px 10px; border: 2px solid rgba(255,255,255,0.3); border-radius: 6px; }
+            .mobile-menu-container { display: none; position: absolute; top: 70px; left: 0; width: 100%; background-color: #0a1f30; border-top: 3px solid var(--accent-color); box-shadow: 0 15px 30px rgba(0,0,0,0.9); z-index: 99999; height: 100vh; overflow-y: auto; padding-bottom: 80px; }
+            .mobile-menu-container.active { display: block; }
+            .m-link { display: block; padding: 15px 20px; color: white; text-decoration: none; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 1.1em; cursor: pointer; }
+            .m-sub-menu { display: none; background: #061523; padding-left: 20px; }
+            .m-sub-menu.show { display: block; }
+            .m-sub-link { display: block; padding: 12px 20px; color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95em; }
         }
-        .designation { margin: 5px 0 0; font-size: 0.9rem; color: #ddd; }
+
+        /* --- TITLE & TICKER --- */
+        .main-title-area { text-align: center; padding: 15px 10px; background: var(--primary-color); color: #fff; border-bottom: 3px solid var(--accent-color); }
+        .main-title-area h1 { color: var(--gold-text); margin: 0; font-size: 2.2em; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); letter-spacing: 1px; font-weight: 700; font-family: 'Cinzel', serif; }
+        .main-title-area p { font-size: 1.1em; color: #e0e0e0; margin-top: 2px; font-weight: 400; letter-spacing: 0.5px; font-family: var(--urdu-font); }
         
-        @media (max-width: 768px) {
-            .main-name { font-size: 1.3rem; line-height: 1.3; } /* نام کا فونٹ چھوٹا */
-            .designation { font-size: 0.7rem; }
-        }
+        .news-ticker-container { background: var(--gold-gradient); height: 40px !important; display: flex; align-items: center; position: relative; z-index: 10; border-bottom: 1px solid #fff; overflow: hidden; margin-bottom: 0 !important; }
+        .ticker-icons-wrapper { background: #a0720b; display: flex; align-items: center; padding: 0 10px; gap: 15px; z-index: 20; box-shadow: 4px 0 10px rgba(0,0,0,0.2); height: 40px !important; flex-shrink: 0; }
+        .ticker-social-icon { color: #fff; font-size: 1.1em; transition: 0.3s; display: flex; align-items: center; justify-content: center; height: 100%; text-decoration: none !important; border: none !important; }
+        .ticker-text-wrapper { flex-grow: 1; overflow: hidden; white-space: nowrap; display: flex; align-items: center; height: 40px !important; }
+        .ticker-text { animation: scroll 60s linear infinite; display: inline-block; padding-left: 100%; font-weight: 600; color: #000; line-height: 40px; font-size: 0.95rem; }
+        @keyframes scroll { 100% { transform: translateX(-100%); } 100% { transform: translateX(0%); } }
 
-        /* TICKER */
-        .news-ticker-container { background: linear-gradient(45deg, #b8860b, #ffd700); padding: 5px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid white; }
-        .ticker-text { display: inline-block; animation: scrollLeft 20s linear infinite; font-weight: bold; color: black; }
+        /* --- WELCOME --- */
+        .welcome-section { max-width: 1000px; margin: 30px auto; padding: 10px 20px; }
+        .welcome-card { background: #fff; border: 2px solid var(--accent-color); border-radius: 15px; padding: 30px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); background-image: url('https://www.transparenttextures.com/patterns/arabesque.png'); }
+        .welcome-card::before { content: '﷽'; display: block; font-family: var(--arabic-font); font-size: 1.5em; color: var(--primary-color); margin-bottom: 15px; }
+        .welcome-text { font-size: 1.25em; color: #000 !important; text-align: justify; text-align-last: center; direction: rtl; font-weight: 700 !important; text-shadow: 0 1px 0 rgba(255,255,255,0.8); line-height: 2.2 !important; }
+        .founder-name { display: block; margin-top: 20px; font-size: 1.3em; color: var(--primary-color); font-weight: bold; }
 
-        /* WELCOME CARD */
-        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-        .welcome-card { background: white; border: 2px solid var(--gold); padding: 25px; text-align: center; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .bismillah { font-family: 'Noto Naskh Arabic'; font-size: 1.5rem; color: var(--royal); margin-bottom: 10px; }
-        .welcome-text { font-family: 'Noto Nastaliq Urdu'; font-size: 1.1rem; line-height: 2.2; text-align: justify; direction: rtl; }
-        .founder-name { display: block; margin-top: 15px; font-weight: bold; color: var(--royal); font-size: 1.2rem; }
+        /* --- FOUNDER GRID --- */
+        .founder-section { background: white; border-radius: 15px; padding: 20px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid var(--accent-color); width: 100%; max-width: 1200px; }
+        .section-heading-founder { text-align: center; margin-bottom: 15px; font-weight: 700; font-size: 1.2em; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; }
+        .founder-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .founder-item { background: linear-gradient(135deg, #0a1f30 0%, #1c3b57 100%); border: 1px solid var(--accent-color); border-radius: 10px; padding: 12px; text-align: center; transition: 0.3s; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; text-decoration: none; cursor: pointer; }
+        .founder-item:hover { background: var(--simple-gold-gradient); border-color: #fff; transform: translateY(-3px); }
+        .founder-item:hover .f-title, .founder-item:hover .f-desc { color: #0a1f30; }
+        .founder-item:hover .f-icon { background: #0a1f30; color: #ffd700; border-color: #0a1f30; }
+        .f-icon { width: 35px; height: 35px; background: rgba(255,255,255,0.1); color: #ffd700; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1em; margin: 0 auto 8px; border: 1px solid #ffd700; }
+        .f-title { font-size: 0.9em; font-weight: 700; color: #fff; margin-bottom: 2px; }
+        .f-desc { font-size: 0.65em; color: #ccc; font-family: 'Poppins', sans-serif; }
 
-        /* FOUNDER GRID (QUICK LINKS) */
-        .founder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-        .founder-item { background: var(--royal); color: white; padding: 10px; border-radius: 8px; text-align: center; text-decoration: none; border: 1px solid var(--gold); display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
-        .founder-item:hover { background: var(--gold); color: black; transform: translateY(-3px); }
-        .f-icon { font-size: 1.5rem; margin-bottom: 5px; }
-        .f-title { font-size: 0.8rem; font-weight: bold; }
-
-        /* MISSION CARD */
-        .mission-card { background: white; border: 1px solid var(--gold); padding: 20px; display: flex; align-items: center; gap: 20px; border-radius: 10px; flex-wrap: wrap; text-align: center; justify-content: center; }
-        .badge { background: var(--royal); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
-        .urdu-line { font-family: 'Noto Nastaliq Urdu'; font-weight: bold; color: var(--gold); font-size: 1.1rem; margin: 10px 0; }
-        .card-btn { background: linear-gradient(to right, #ffe259, #ffa751); color: black; padding: 8px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; }
-        .quran-img { width: 120px; border-radius: 10px; border: 3px solid var(--gold); }
-
-        /* HONORS (2 Lines on Mobile) */
-        .honors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
-        .honor-card-gold { background: linear-gradient(135deg, #b8860b, #a0720b); color: white; padding: 15px; border-radius: 10px; text-align: center; border: 2px solid var(--light-gold); cursor: pointer; }
-        .honor-card-gold h3 { margin: 0; font-size: 0.9rem; text-shadow: 1px 1px 0 rgba(0,0,0,0.3); }
-        .honor-card-gold p { margin: 2px 0 0; font-size: 0.7rem; }
-
-        /* AWARDS GRID (Mobile 2 cols) */
-        .awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-        .award-item { background: white; border: 1px solid #ddd; padding: 10px; display: flex; align-items: center; gap: 10px; border-radius: 8px; }
-        .aw-icon { font-size: 1.5rem; color: var(--gold); }
-        .aw-text { font-size: 0.8rem; line-height: 1.2; }
+        /* --- CARDS & GRID --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .section-title { text-align: center; color: var(--primary-color); font-size: 1.8em; font-weight: 700; text-transform: uppercase; margin: 40px 0 20px; position: relative; font-family: 'Cinzel', serif; }
+        .mission-card { background: linear-gradient(135deg, #fffcf5 0%, #ffffff 100%); border: 1px solid var(--accent-color); padding: 20px; display: flex; align-items: center; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.03); gap: 20px; }
+        .card-btn { display: block; width: 70%; margin: 12px auto 0 auto; text-align: center; background: linear-gradient(to right, #ffe259, #ffa751); padding: 8px 0; border-radius: 50px; text-decoration: none; color: #333; font-weight: 700; border: 1px solid #e0aa3e; transition: 0.3s; font-size: 1.1em; }
         
-        @media (max-width: 768px) {
-            .awards-grid { grid-template-columns: 1fr 1fr; } /* 2 لائنوں میں برابر */
-            .award-item { flex-direction: column; text-align: center; font-size: 0.7rem; }
-        }
-
-        /* JOURNEY GRID (Mobile 2 cols) */
-        .journey-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-        .j-card { background: white; border: 1px solid #eee; border-radius: 8px; overflow: hidden; text-decoration: none; color: black; display: block; transition: 0.3s; }
-        .j-card:hover { transform: translateY(-3px); border-color: var(--gold); }
-        .j-head { background: linear-gradient(45deg, #b8860b, #e0aa3e); padding: 8px; font-weight: bold; font-size: 0.85rem; color: black; }
-        .j-card p { padding: 10px; font-size: 0.75rem; margin: 0; color: #555; }
-
-        @media (max-width: 768px) {
-            .journey-grid { grid-template-columns: 1fr 1fr; } /* 2 کالم موبائل پر */
-        }
-
-        /* SLIDERS */
-        .slider-area { overflow: hidden; padding: 10px 0; }
-        .slide-track, .book-track { display: flex; gap: 15px; width: max-content; animation: scroll 30s linear infinite; }
-        .slide-card { width: 180px; background: white; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
-        .v-thumb { position: relative; height: 100px; }
-        .v-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .play-icon { position: absolute; bottom: 5px; right: 5px; color: white; font-size: 1.2rem; text-shadow: 0 0 5px black; }
-        .s-info { padding: 5px; text-align: center; font-size: 0.8rem; font-weight: bold; background: var(--gold); }
+        .honor-gold-card { background: linear-gradient(135deg, #b8860b 0%, #a0720b 100%); color: #fff; padding: 15px; border-radius: 10px; text-align: center; border: 2px solid #ffd700; box-shadow: 0 5px 15px rgba(0,0,0,0.15); cursor: pointer; transition: 0.3s; }
+        .honors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
         
-        .book-mini { width: 120px; text-align: center; text-decoration: none; color: black; background: white; padding: 5px; border: 1px solid #ddd; border-radius: 5px; }
+        .awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .award-grid-item { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition:0.3s; }
+        
+        .journey-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .journey-card { background: #fff; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.03); cursor: pointer; transition: 0.3s; }
+        .journey-card .gold-header { background: linear-gradient(45deg, #b8860b, #e0aa3e); color: #000; padding: 10px; display: flex; align-items: center; gap: 10px; border-bottom: 3px solid #ffd700; }
+        .card-body { padding: 10px; }
+        .card-tag { background: #f8f9fa; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; color: #666; border: 1px solid #eee; font-weight: 500; display: block; margin-top: 5px; }
+
+        /* --- SLIDERS --- */
+        .slider-area { overflow: hidden; margin-bottom: 15px; padding: 5px 0; position: relative; }
+        .slide-track { display: flex; width: max-content; animation: scrollLeft 40s linear infinite; }
+        .slide-track:hover { animation-play-state: paused; }
+        .slide-card { width: 260px; flex-shrink: 0; margin: 0 10px; background: #fff; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column; height: 100%; border:1px solid #eee; cursor: pointer; }
+        .video-thumb { width: 100%; height: 150px; position: relative; flex-shrink: 0; }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .play-icon { position: absolute; bottom: 8px; right: 8px; color: #fff; font-size: 1.8em; opacity: 0.9; background: rgba(0,0,0,0.5); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; }
+        .slide-info { padding: 8px; background: linear-gradient(to bottom, #ffd700, #ffc107); text-align: center; border-top: 2px solid #b8860b; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; min-height: 75px; }
+        .slide-info h4 { margin: 0; color: #000; font-size: 1em; font-weight: 700; line-height: 1.2; }
+        .slide-info p { margin: 2px 0 0; font-size: 0.85em; color: #222; font-weight: 600; }
+
+        .book-track { display: flex; width: max-content; animation: scrollRight 35s linear infinite; }
+        .book-mini { width: 130px; flex-shrink: 0; margin: 0 10px; background: #fff; padding: 8px; border-radius: 8px; text-align: center; border: 1px solid #ddd; text-decoration: none; display: block; }
         .book-mini img { width: 100%; height: 140px; object-fit: contain; }
-        .book-mini p { margin: 5px 0 0; font-size: 0.8rem; font-family: 'Noto Nastaliq Urdu'; }
+        .book-mini p { font-family: var(--urdu-font) !important; font-size: 0.9em !important; color: #000; margin-top:5px; }
 
-        /* BUTTONS */
-        .read-more-btn { background: var(--gold); color: black; padding: 10px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; }
+        @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
 
-        /* FOOTER */
-        footer { background: var(--royal); color: white; padding: 30px 15px 10px; border-top: 5px solid var(--gold); text-align: center; margin-top: 40px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; text-align: right; direction: rtl; }
-        .f-col h3 { color: var(--light-gold); border-bottom: 1px solid var(--gold); padding-bottom: 5px; font-size: 1.1rem; }
-        .f-col ul { list-style: none; padding: 0; }
-        .f-col a { color: #ccc; text-decoration: none; font-size: 0.9rem; }
-        .social-icons a { font-size: 1.5rem; margin: 0 5px; text-decoration: none; }
-        .copyright { margin-top: 20px;
+        .read-more-btn { display: inline-block; background: var(--gold-gradient); color: #000 !important; padding: 8px 30px; border-radius: 50px; margin-top: 20px; border: 1px solid #b8860b; transition: 0.3s; font-size: 1.1em; text-decoration: none; box-shadow: 0 3px 8px rgba(0,0,0,0.15); white-space: nowrap; font-weight: 700; }
+
+        /* --- FEEDBACK --- */
+        .feedback-container { width: 100%; max-width: 1000px; margin: 40px auto; background: #fff; border: 2px solid #b8860b; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); overflow: hidden; font-family: 'Jameel Noori Nastaleeq', serif; direction: rtl; }
+        .fb-header { background: linear-gradient(90deg, #0a2e47, #0f4c75, #0a2e47); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ffd700; }
+        .fb-body { padding: 20px; background: linear-gradient(to bottom, #fffcf5, #fff); }
+        .royal-form { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .fb-input { padding: 12px 15px; border: 1px solid #c8a165; border-radius: 6px; font-family: 'Jameel Noori Nastaleeq', serif; font-size: 1.1em; outline: none; background: #fff; transition: 0.3s; flex: 1; min-width: 150px; }
+        .fb-btn { background: linear-gradient(180deg, #ffd700, #b8860b); color: #000; border: none; padding: 10px 30px; border-radius: 6px; font-family: 'Jameel Noori Nastaleeq', serif; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); white-space: nowrap; transition: 0.3s; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--dark-blue); color: #fff; padding: 50px 20px 20px; text-align: center; border-top: 5px solid var(--accent-color); margin-top: 60px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; text-align: right; direction: rtl; }
+        .footer-col h3 { color: var(--gold-text); border-bottom: 2px solid var(--gold-text); display: inline-block; padding-bottom: 10px; margin-bottom: 20px; font-family: var(--urdu-font); font-size: 1.3em; }
+        .footer-col p, .footer-col ul li a { color: #ddd; text-decoration: none; transition: 0.3s; font-family: var(--urdu-font); font-size: 1em; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-socials { margin-top: 15px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+        .f-icon-btn { width: 35px; height: 35px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff !important; text-decoration: none; transition: 0.3s; }
+        .f-icon-btn:hover { background: #ffd700; color: #000 !important; border-color: #ffd700; transform: translateY(-3px); }
+        .copyright { font-size: 0.8em; color: #aaa; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 30px; text-align: center; }
+
+        /* --- FLOAT --- */
+        .floating-whatsapp { position: fixed; bottom: 20px; left: 20px; background-color: #25d366; color: white; width: 55px; height: 55px; border-radius: 50%; text-align: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 999999; }
+        #scrollToTopBtn { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(45deg, #d4af37, #b8860b); color: white; border: none; outline: none; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 999999; }
+
+        /* --- VIDEO MODAL --- */
+        .video-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-video { width: 90%; max-width: 900px; border: 2px solid var(--gold-text); border-radius: 8px; }
+        .close-modal { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; }
+
+        /* --- MOBILE FIXES --- */
+        @media (max-width: 768px) {
+            .ayat-text { font-size: 0.8em !important; }
+            .founder-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .main-title-area { padding: 8px 5px !important; }
+            .main-title-area h1 { font-size: 1.3em !important; line-height: 1.3; margin-bottom: 5px; }
+            .welcome-card { padding: 20px 15px; }
+            .welcome-text { line-height: 2.2 !important; font-size: 1.1em !important; }
+            .mission-card { flex-direction: column; text-align: center; }
+            .card-btn { width: 90%; }
+            #scrollToTopBtn { bottom: 20px; right: 20px; padding: 12px; font-size: 16px; }
+            .footer-grid { text-align: center; direction: ltr; }
+            .footer-socials { justify-content: center; }
+            .honors-grid, .awards-grid, .journey-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+            
+            /* موبائل مینیو سٹائلز */
+            .royal-form { flex-direction: column; width: 100%; }
+            .fb-input { width: 100%; }
+            .fb-header { flex-direction: column; gap: 10px; text-align: center; }
+        }
+      `}</style>
+    </div>
+  );
+}
